@@ -2,7 +2,9 @@ FoxEmu
 =======
 [![Build Status](https://travis-ci.org/FoxEmu/FoxEmu.svg)](https://travis-ci.org/FoxEmu/FoxEmu)
 
-FoxEmu is a server emulator for League of Leguends based mostly in C++.
+FoxEmu it's a MOBA server framework based mostly in C++.
+
+It is derived from Elyotna/IntWars, and is based on the code of that project with extensive changes over time to optimize, improve and cleanup the codebase at the same time as improving the in-game mechanics and functionality.
 
 IMPORTANT: This project it's only for educational purposes, we don't support private servers.
 
