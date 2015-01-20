@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "FileReader.h"
-#include "stdafx.h"
+#include "Stdafx.h"
 
 class RAFFile {
    struct RAFHeader {
@@ -26,11 +26,11 @@ class RAFFile {
 public:
    RAFFile(const std::string& filename);
    bool readFile(const std::string& path, std::vector<unsigned char>& toFill);
-   
+
    static uint32 getHash(const std::string& path);
 
 private:
-   
+
    RAFHeader header;
    std::map<uint32, File> fileEntries;
    std::string filename;

@@ -10,7 +10,7 @@ using namespace std;
 RAFFile::RAFFile(const std::string& filename) : filename(filename) {
    FileReader rafHeaderFile(filename);
    rafHeaderFile >> header;
-   
+
    if(header.magicNumber != 0x18be0ef0) {
       return;
    }
@@ -36,12 +36,12 @@ RAFFile::RAFFile(const std::string& filename) : filename(filename) {
 
       rafHeaderFile.seek(prevPos);
    }
-   
+
    uint32 fileCount;
-   
+
    rafHeaderFile.seek(header.fileListOffset);
    rafHeaderFile >> fileCount;
-   
+
    for(uint32 i = 0; i < fileCount; ++i) {
       File entry;
       uint32 pathId;
@@ -68,28 +68,28 @@ uint32 RAFFile::getHash(const std::string& path) {
 bool RAFFile::readFile(const std::string& path, vector<unsigned char>& toFill) {
    uint32 hash = getHash(path);
    vector<unsigned char> compressedFile;
-   
+
    auto entry = fileEntries.find(hash);
-   
+
    if(entry == fileEntries.end()) {
       return false;
    }
-   
+
    FileReader rafDataFile(filename+".dat");
-   
+
    rafDataFile.seek(entry->second.offset);
    rafDataFile.read(compressedFile, entry->second.size);
-   
+
    z_stream stream;
    uint8 s_outbuf[BUF_SIZE]; // 1MB
-   
+
    // Init the z_stream
    memset(&stream, 0, sizeof(stream));
    stream.next_in = &compressedFile[0];
    stream.avail_in = compressedFile.size();
    stream.next_out = s_outbuf;
    stream.avail_out = BUF_SIZE;
-   
+
    if (inflateInit(&stream))
    {
       printf("inflateInit() failed!\n");
@@ -110,8 +110,8 @@ bool RAFFile::readFile(const std::string& path, vector<unsigned char>& toFill) {
       }
 
       if (status == Z_STREAM_END)
-         break;  
-      
+         break;
+
       if (status != Z_OK)
       {
          printf("inflate() failed with status %i!\n", status);
@@ -124,6 +124,6 @@ bool RAFFile::readFile(const std::string& path, vector<unsigned char>& toFill) {
       printf("inflateEnd() failed!\n");
       return false;
     }
-   
+
    return true;
 }
