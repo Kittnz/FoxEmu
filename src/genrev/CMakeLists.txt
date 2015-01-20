@@ -1,4 +1,4 @@
-# Copyright (C) 2015 FoxEmu <http://www.foxemu.ovh/>
+# Copyright (C) 2014 FoxEmu <http://www.foxemu.ovh/>
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
@@ -8,16 +8,8 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-if (CMAKE_COMPILER_IS_GNUCXX)
-    add_definitions(--no-warnings)
-elseif (MSVC)
-    add_definitions(/W0)
-endif()
-
-if (LOGINSERVER OR BATTLESERVER)
-    add_subdirectory(enet)
-    add_subdirectory(intlib)
-    add_subdirectory(lua)
-    add_subdirectory(raf)
-    add_subdirectory(sol)
-endif()
+# Need to pass old ${CMAKE_BINARY_DIR} as param because its different at build stage
+add_custom_target(revision.h ALL
+  COMMAND ${CMAKE_COMMAND} -DNO_GIT=${WITHOUT_GIT} -DGIT_EXEC=${GIT_EXECUTABLE} -DBUILDDIR=${CMAKE_BINARY_DIR} -P ${CMAKE_SOURCE_DIR}/cmake/genrev.cmake
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+)

@@ -1,4 +1,4 @@
-# Copyright (C) 2015 FoxEmu <http://www.foxemu.ovh/>
+# Copyright (C) 2014 FoxEmu <http://www.foxemu.ovh/>
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
@@ -8,16 +8,6 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-if (CMAKE_COMPILER_IS_GNUCXX)
-    add_definitions(--no-warnings)
-elseif (MSVC)
-    add_definitions(/W0)
-endif()
-
-if (LOGINSERVER OR BATTLESERVER)
-    add_subdirectory(enet)
-    add_subdirectory(intlib)
-    add_subdirectory(lua)
-    add_subdirectory(raf)
-    add_subdirectory(sol)
-endif()
+option(LOGINSERVER      "Build loginserver"                                           1)
+option(GAMESERVER       "Build gameserver"                                            1)
+option(WITHOUT_GIT      "Disable the GIT testing routines"                            0)

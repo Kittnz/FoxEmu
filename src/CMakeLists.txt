@@ -8,16 +8,14 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-if (CMAKE_COMPILER_IS_GNUCXX)
-    add_definitions(--no-warnings)
-elseif (MSVC)
-    add_definitions(/W0)
-endif()
+add_subdirectory(genrev)
 
-if (LOGINSERVER OR BATTLESERVER)
-    add_subdirectory(enet)
-    add_subdirectory(intlib)
-    add_subdirectory(lua)
-    add_subdirectory(raf)
-    add_subdirectory(sol)
-endif()
+#if (LOGINSERVER)
+#    add_subdirectory(loginserver)
+#endif()
+
+#if (GAMESERVER)
+#    add_subdirectory(gameserver)
+#    add_subdirectory(game)
+#    add_subdirectory(scripts)
+#endif()

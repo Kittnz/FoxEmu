@@ -8,16 +8,25 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-if (CMAKE_COMPILER_IS_GNUCXX)
-    add_definitions(--no-warnings)
-elseif (MSVC)
-    add_definitions(/W0)
+file(GLOB sources_enet *.cpp *.h)
+
+set(enet_STAT_SRCS
+    ${sources_enet}
+)
+
+include_directories(
+    ${CMAKE_SOURCE_DIR}/src/server/shared
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+if (WIN32)
+    set(enet_win_libs odbc32 odbccp32 winmm ws2_32)
 endif()
 
-if (LOGINSERVER OR BATTLESERVER)
-    add_subdirectory(enet)
-    add_subdirectory(intlib)
-    add_subdirectory(lua)
-    add_subdirectory(raf)
-    add_subdirectory(sol)
-endif()
+add_library(enet STATIC ${enet_STAT_SRCS})
+
+set_target_properties(enet PROPERTIES LINKER_LANGUAGE CXX)
+
+target_link_libraries(enet
+    ${enet_win_libs}
+)

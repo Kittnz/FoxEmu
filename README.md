@@ -1,44 +1,21 @@
-IntWars
-==================
-DISCLAIMER: This is for development purposes only, this is not a finished project - and should not be used in a production enviroment.
-About
-------
-New: Website to provide a central location to discuss the project! http://leaguesandbox.com/
+FoxEmu
+=======
+[![Build Status](https://travis-ci.org/FoxEmu/FoxEmu.svg)](https://travis-ci.org/FoxEmu/FoxEmu)
 
-This is a fork of the 2 year old project, IntWars. It's a server framework for the MOBA games family.
-If you want to contribute to the project, please fork the repo and upload any progress to GitHub.  
-If you need help compiling the source on Windows, [check here](http://leaguesandbox.com/forum/viewtopic.php?f=6&t=4).
+FoxEmu is a server emulator for League of Leguends based mostly in C++.
 
-Important rules and information
----------
-* Keep this project clean and simple
-* The project is using parts of the C++ 2011 standard.
+IMPORTANT: This project it's only for educational purposes, we don't support private servers.
 
-Original Creators
--------
-* Intline9 - intline9(at)gmail(dot)com
-* Ltsstar
+## Copyright
+This project it's completely OpenSource with GPL 2.0 license, community participation is absolutely necessary.
 
-Other Important Contributors
--------
-* Elyotna (reddit: ?)
-* Spudgy (reddit: imSpudgy)
-* ProudHeart (reddit: chutch1122)
+## Issues report
+We use GitHub Issue Tracker to track all issues, if you found any issue on the project, you can report this on our [Issue Tracker](https://github.com/FoxEmu/FoxEmu/issues).
 
+Please check if the report exist first to prevent duplicated reports.
 
-License
--------
-GPLv3 as sharing is caring, and when ever you extend/use/modify/fix any of this project you should share it again!
+## Contribute
+You can contribute contribute with FoxEmu sending pull requests to our [Oficial repository on GitHub](https://github.com/FoxEmu/FoxEmu), all contributions are welcome.
 
-Contact
--------
-For information relating to this fork, contact me on reddit: chutch1122  
-I'm working on setting up a website where we can organize this better. http://leaguesandbox.com/
-
-Notes for Compiling on Windows
----------
-Note: This is a very basic explanation. I am working on a more detailed explanation, but don't have the time right now.
-
-This project uses elements from C++11, like initialization lists. Visual Studio does not support initialization lists in the 2010 or 2012 versions. Therefore, I recommend installing/using CMake and MinGW's g++ compiler.
-
-[You can find a guide for setting that all up here!](http://leaguesandbox.com/forum/viewtopic.php?f=6&t=4)
+## Websyte
+Our website is currently in development, as soon as we possibly can, we will put online

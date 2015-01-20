@@ -8,16 +8,17 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-if (CMAKE_COMPILER_IS_GNUCXX)
-    add_definitions(--no-warnings)
-elseif (MSVC)
-    add_definitions(/W0)
-endif()
+file(GLOB raf_sources *.cpp *.h)
 
-if (LOGINSERVER OR BATTLESERVER)
-    add_subdirectory(enet)
-    add_subdirectory(intlib)
-    add_subdirectory(lua)
-    add_subdirectory(raf)
-    add_subdirectory(sol)
-endif()
+set(raf_STAT_SRCS
+    ${raf_sources}
+)
+
+include_directories(
+    ${CMAKE_SOURCE_DIR}/src/shared
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+add_library(raf STATIC ${raf_STAT_SRCS})
+
+set_target_properties(raf PROPERTIES LINKER_LANGUAGE CXX)
