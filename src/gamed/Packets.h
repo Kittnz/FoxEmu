@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class Packet {
 protected:
    Buffer buffer;
-   
+
 public:
    const Buffer& getBuffer() const { return buffer; }
    Packet(uint8 cmd = 0) {
@@ -53,7 +53,7 @@ public:
 };
 
 class BasePacket : public Packet {
-   
+
 public:
    BasePacket(uint8 cmd = 0, uint32 netId = 0) : Packet(cmd) {
       buffer << netId;
@@ -62,7 +62,7 @@ public:
 };
 
 class GamePacket : public BasePacket {
-   
+
 public:
    GamePacket(uint8 cmd = 0, uint32 netId = 0) : BasePacket(cmd, netId) {
       buffer << (uint32)clock();
@@ -137,17 +137,17 @@ public:
          buffer << p->getIcon();
          buffer << (uint16)p->getRibbon();
       }
-      
+
       for(size_t i = 0; i < 12-players.size(); ++i) {
          buffer << (int64)-1;
          buffer.fill(0, 173);
       }
-            
+
         buffer << version;
         buffer.fill(0, 256-version.length());
         buffer << gameMode;
         buffer.fill(0, 128-gameMode.length());
-        
+
         buffer << "NA1";
         buffer.fill(0, 2332); // 128 - 3 + 661 + 1546
         buffer << (uint32)487826; // gameFeatures (turret range indicators, etc.)
@@ -160,7 +160,7 @@ public:
     uint8 ok;
     uint32 mapId;
     SynchBlock players[12];
-    uint8 version[256]; 
+    uint8 version[256];
     uint8 gameMode[128];
     uint8 unk1[512];
     uint8 unk2[245];
@@ -202,7 +202,7 @@ public:
         //Zero this complete buffer
         buffer << (uint32)6; // blueMax
         buffer << (uint32)6; // redMax
-        
+
         uint32 currentBlue = 0;
         for(ClientInfo* player : players) {
            if(player->getTeam() == TEAM_BLUE) {
@@ -210,13 +210,13 @@ public:
               currentBlue++;
            }
         }
-        
+
         for(size_t i = 0; i < 6-currentBlue; ++i) {
            buffer << (uint64)0;
         }
-        
+
         buffer.fill(0, 144);
-        
+
         uint32 currentPurple = 0;
         for(ClientInfo* player : players) {
            if(player->getTeam() == TEAM_PURPLE) {
@@ -224,11 +224,11 @@ public:
               currentPurple++;
            }
         }
-        
+
         for(int i = 0; i < 6-currentPurple; ++i) {
            buffer << (uint64)0;
         }
-        
+
         buffer.fill(0, 144);
         buffer << currentBlue;
         buffer << currentPurple;
@@ -290,17 +290,17 @@ public:
       buffer << (uint32)m->getSpawnPosition();
       buffer << (uint8)0xFF; // unk
       buffer << (uint8)1; // wave number ?
-      
+
       buffer << (uint8)m->getType();
-      
+
       if(m->getType() == MINION_TYPE_MELEE) {
          buffer << (uint8)0; // unk
       } else {
          buffer << (uint8)1; // unk
       }
-      
+
       buffer << (uint8)0; // unk
-      
+
       if(m->getType() == MINION_TYPE_CASTER) {
          buffer << (uint32)0x00010007; // unk
       } else if(m->getType() == MINION_TYPE_MELEE) {
@@ -319,9 +319,9 @@ public:
       buffer << (uint32)0x00000000; // unk
       buffer << (uint16)0x0200; // unk
       buffer << (uint32)clock(); // unk
-      
+
       const std::vector<Vector2>& waypoints = m->getWaypoints();
-      
+
       buffer << (uint8)((waypoints.size()-m->getCurWaypoint()+1)*2); // coordCount
       buffer << m->getNetId();
       buffer << (uint8)0; // movement mask
@@ -332,7 +332,7 @@ public:
 			buffer << MovementVector::targetXToNormalFormat(waypoints[i].Y);
       }
    }
-   
+
    MinionSpawn(uint32 netId) : BasePacket(PKT_S2C_ObjectSpawn, netId) {
       buffer.fill(0, 3);
    }
@@ -385,16 +385,16 @@ public:
       buffer << u->getX() << u->getY();
       buffer << (uint32)0; // unk
       buffer << (uint8)0;
-      
+
       buffer << (uint32)0x4c079bb5; // unk
       buffer << (uint32)0xa30036df; // unk
       buffer << (uint32)0x200168c2; // unk
-      
+
       buffer << (uint8)0x00; // Vector bitmask on whether they're int16 or int8
-      
+
       MovementVector from = u->getMap()->toMovementVector(u->getX(), u->getY());
       MovementVector to = u->getMap()->toMovementVector(toX, toY);
-      
+
       buffer << from.x << from.y;
       buffer << to.x << to.y;
    }
@@ -423,9 +423,9 @@ public:
       buffer.fill(0, 13);
       buffer << (uint8)0x02;
       buffer << (uint32)clock(); // unk
-      
+
       const std::vector<Vector2>& waypoints = m->getWaypoints();
-      
+
       buffer << (uint8)((waypoints.size()-m->getCurWaypoint()+1)*2); // coordCount
       buffer << m->getNetId();
       buffer << (uint8)0; // movement mask
@@ -577,7 +577,7 @@ typedef struct _SynchVersion {
     PacketHeader header;
     uint32 unk1;
     int8 version[256]; // version string might be shorter?
-    
+
     const int8 *getVersion() {
         return version;
     }
@@ -603,7 +603,7 @@ struct CharacterStats {
       header.ticks = clock();
       this->value.fValue = value;
    }
-   
+
    CharacterStats(uint8 masterMask, uint32 netId, uint32 mask, unsigned short value) : updateNo(1), masterMask(masterMask), netId(netId), mask(mask), size(2) {
       header.cmd = (GameCmd)PKT_S2C_CharStats;
       header.ticks = clock();
@@ -859,7 +859,7 @@ public:
    Announce(uint8 messageId, uint32 mapId = 0) : BasePacket(PKT_S2C_Announce) {
       buffer << messageId;
       buffer << (uint64)0;
-      
+
       if (mapId > 0) {
          buffer << mapId;
       }
@@ -870,7 +870,7 @@ class AddBuff : public Packet {
 public:
    AddBuff(Unit* u, Unit* source, int stacks, std::string name) : Packet(PKT_S2C_AddBuff) {
       buffer << u->getNetId();//target
-      
+
       buffer << (uint8) 0x05; //maybe type?
       buffer << (uint8) 0x02;
       buffer << (uint8) 0x01; // stacks
@@ -888,7 +888,7 @@ public:
       buffer << (uint8) 0x50;
       buffer << (uint8) 0xc3;
       buffer << (uint8) 0x46;
-     
+
       if (source != 0) {
          buffer << source->getNetId(); //source
       } else {
@@ -1019,7 +1019,7 @@ public:
             break;
          case 6:
             buffer << (uint8)0xb6; // Assistance Needed
-            break;            
+            break;
       }
       */
    }
@@ -1058,7 +1058,7 @@ public:
          buffer << (uint8)0x80; // These flags appear to change only to 0x80 and 0x7F after the first autoattack.
       else
          buffer << (uint8)0x7F;
-         
+
       buffer << futureProjNetId;
       if (isCritical)
         buffer << (uint8)0x49;
@@ -1141,7 +1141,7 @@ class ChampionRespawn : public BasePacket {
 public:
    ChampionRespawn(Champion* c) : BasePacket(PKT_S2C_ChampionRespawn, c->getNetId()) {
       buffer << c->getX() << c->getY() << c->getZ();
-   } 
+   }
 };
 
 class ShowProjectile : public BasePacket {
@@ -1158,7 +1158,7 @@ public:
       buffer << u->getStats().getMaxHealth();
       buffer << u->getStats().getCurrentHealth();
    }
-   
+
    SetHealth(uint32 itemHash) : BasePacket(PKT_S2C_SetHealth, itemHash) {
       buffer << (uint16)0;
    }
@@ -1172,7 +1172,7 @@ public:
 };
 
 class TeleportRequest : public BasePacket {
-    
+
 public:
     TeleportRequest(int netId,float x, float y, bool first) : BasePacket(PKT_S2C_MoveAns, (uint32) 0x0){
       buffer << (uint32) clock();//not 100% sure
@@ -1186,14 +1186,14 @@ public:
       buffer << (uint32)netId;
       if(first == false){
           static uint8 a = 0x01;
-          
+
           buffer << (uint8) a; // if it is the second part, send 0x01 before coords
           a++;
       }
       buffer << (uint16)x;
       buffer << (uint16)y;
     }
-    
+
 };
 
 
@@ -1212,7 +1212,7 @@ class CastSpellAns : public GamePacket {
 public:
    CastSpellAns(Spell* s, float x, float y, uint32 futureProjNetId, uint32 spellNetId) : GamePacket(PKT_S2C_CastSpellAns, s->getOwner()->getNetId()) {
       Map* m = s->getOwner()->getMap();
-   
+
       buffer << (uint8)0 << (uint8)0x66 << (uint8)0x00; // unk
       buffer << s->getId(); // Spell hash, for example hash("EzrealMysticShot")
       buffer << (uint32)spellNetId; // Spell net ID
@@ -1230,7 +1230,7 @@ public:
       buffer << s->getCooldown();
       buffer << (float)0.f; // unk
       buffer << (uint8)0; // unk
-      buffer << s->getSlot(); 
+      buffer << s->getSlot();
       buffer << s->getCost();
       buffer << s->getOwner()->getX() << s->getOwner()->getZ() << s->getOwner()->getY();
       buffer << (uint64)1; // unk
@@ -1242,14 +1242,14 @@ class PlayerInfo : public BasePacket{
 public:
 
    PlayerInfo(ClientInfo* player) : BasePacket(PKT_S2C_PlayerInfo, player->getChampion()->getNetId()){
-   
+
    buffer << (uint8) 0x7D  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x7D  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x7D  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x7D  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x7D  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x7D  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x7D  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x7D  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x83  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xA9  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xA9  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xA9  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xA9  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xA9  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xA9  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xA9  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xA9  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xA9  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xC5  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xC5  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xC5  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xC5  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xC5  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xC5  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xC5  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xC5  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xC5  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xD7  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xD7  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0xD7  <<(uint8) 0x14  <<(uint8) 0x00  <<(uint8) 0x00;
 
    buffer << player->summonerSkills[0];
    buffer << player->summonerSkills[1];
- 
+
    buffer <<(uint8) 0x41  <<(uint8) 0x74  <<(uint8) 0x03  <<(uint8) 0x00  <<(uint8) 0x01  <<(uint8) 0x42  <<(uint8) 0x74  <<(uint8) 0x03  <<(uint8) 0x00  <<(uint8) 0x04  <<(uint8) 0x52  <<(uint8) 0x74  <<(uint8) 0x03  <<(uint8) 0x00  <<(uint8) 0x03  <<(uint8) 0x61  <<(uint8) 0x74  <<(uint8) 0x03  <<(uint8) 0x00  <<(uint8) 0x01  <<(uint8) 0x62  <<(uint8) 0x74  <<(uint8) 0x03  <<(uint8) 0x00  <<(uint8) 0x01  <<(uint8) 0x64  <<(uint8) 0x74  <<(uint8) 0x03  <<(uint8) 0x00  <<(uint8) 0x03  <<(uint8) 0x71  <<(uint8) 0x74  <<(uint8) 0x03  <<(uint8) 0x00  <<(uint8) 0x01  <<(uint8) 0x72  <<(uint8) 0x74  <<(uint8) 0x03  <<(uint8) 0x00  <<(uint8) 0x03  <<(uint8) 0x82  <<(uint8) 0x74  <<(uint8) 0x03  <<(uint8) 0x00  <<(uint8) 0x03  <<(uint8) 0x92  <<(uint8) 0x74  <<(uint8) 0x03  <<(uint8) 0x00  <<(uint8) 0x01  <<(uint8) 0x41  <<(uint8) 0x75  <<(uint8) 0x03  <<(uint8) 0x00  <<(uint8) 0x01  <<(uint8) 0x42  <<(uint8) 0x75  <<(uint8) 0x03  <<(uint8) 0x00  <<(uint8) 0x02  <<(uint8) 0x43  <<(uint8) 0x75  <<(uint8) 0x03  <<(uint8) 0x00  <<(uint8) 0x02  <<(uint8) 0x52  <<(uint8) 0x75  <<(uint8) 0x03  <<(uint8) 0x00  <<(uint8) 0x03  <<(uint8) 0x62  <<(uint8) 0x75  <<(uint8) 0x03  <<(uint8) 0x00  <<(uint8) 0x01  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x00  <<(uint8) 0x1E  <<(uint8) 0x00;
-   
+
    }
 
 
@@ -1259,7 +1259,7 @@ class SpawnProjectile : public BasePacket {
 public:
    SpawnProjectile(Projectile* p) : BasePacket(PKT_S2C_SpawnProjectile, p->getNetId()) {
       float targetZ = p->getMap()->getHeightAtLocation(p->getTarget()->getX(), p->getTarget()->getY());
-   
+
       buffer << p->getX() << p->getZ() << p->getY();
       buffer << p->getX() << p->getZ() << p->getY();
       buffer << (uint64)0x000000003f510fe2; // unk
@@ -1278,14 +1278,14 @@ public:
       buffer << (uint8)0; // unk
       buffer << 1.0f;
       buffer << p->getOwner()->getNetId() << p->getOwner()->getNetId();
-      
+
       Champion* c = dynamic_cast<Champion*>(p->getOwner());
       if(c) {
          buffer << (uint32)c->getChampionHash();
       } else {
          buffer << (uint32)0;
       }
-      
+
       buffer << p->getNetId();
       buffer << p->getTarget()->getX() << targetZ << p->getTarget()->getY();
       buffer << p->getTarget()->getX() << targetZ << p->getTarget()->getY();
@@ -1316,27 +1316,27 @@ public:
       buffer << owner->getNetId();
       buffer << netId; // Particle net id ?
       buffer << owner->getNetId();
-      
+
       if(t->isSimpleTarget()) {
          buffer << (uint32)0;
       } else {
          buffer << static_cast<Object*>(t)->getNetId();
       }
-      
+
       buffer << (uint32)0; // unk
-      
+
       for(int i = 0; i < 3; ++i) {
          buffer << static_cast<int16>((t->getX() - MAP_WIDTH)/2);
          buffer << 50.f;
          buffer << static_cast<int16>((t->getY() - MAP_HEIGHT)/2);
       }
-      
+
       buffer << (uint32)0; // unk
       buffer << (uint32)0; // unk
       buffer << (uint32)0; // unk
       buffer << (uint32)0; // unk
       buffer << 1.f; // unk
-      
+
    }
 };
 
@@ -1349,39 +1349,39 @@ class UpdateStats : public GamePacket {
 public:
    UpdateStats(Unit* u, bool partial = true) : GamePacket(PKT_S2C_CharStats, 0) {
       std::map<uint8, std::set<uint32> > stats;
-   
+
       if(partial) {
          stats = u->getStats().getUpdatedStats();
       } else {
          stats = u->getStats().getAllStats();
       }
-      
+
       std::set<uint8> masks;
       uint8 masterMask = 0;
-      
+
       for(auto& p : stats) {
          masterMask |= p.first;
          masks.insert(p.first);
       }
-      
+
       buffer << (uint8)1;
       buffer << masterMask;
       buffer << u->getNetId();
-      
+
       for(uint8 m : masks) {
          uint32 mask = 0;
          uint8 size = 0;
-         
+
          const std::set<uint32>& updatedStats = stats.find(m)->second;
-         
-         for(auto it = updatedStats.begin(); it != updatedStats.end(); ++it) {      
+
+         for(auto it = updatedStats.begin(); it != updatedStats.end(); ++it) {
             size += u->getStats().getSize(m, *it);
             mask |= *it;
          }
-         
+
          buffer << mask;
          buffer << size;
-         
+
          for(int i = 0; i < 32; ++i) {
             uint32 tmpMask = (1 << i);
             if(tmpMask & mask) {
@@ -1413,20 +1413,20 @@ class LevelPropSpawn : public BasePacket {
             buffer << (uint8)0; // unk
             buffer << lp->getX() << lp->getZ() << lp->getY();
             buffer << 0.f; // Rotation Y
-            
+
             buffer << lp->getDirectionX() << lp->getDirectionZ() << lp->getDirectionY();
             buffer << lp->getUnk1() << lp->getUnk2();
 
             buffer << 1.0f << 1.0f << 1.0f; // Scaling
             buffer << (uint32)300; // unk
             buffer << (uint32)2; // nPropType [size 1 -> 4] (4.18) -- if is a prop, become unselectable and use direction params
-            
+
             buffer << lp->getName();
             buffer.fill(0, 64-lp->getName().length());
             buffer << lp->getType();
             buffer.fill(0, 64-lp->getType().length());
         }
-        
+
         // TODO : remove this once we find a better solution for jungle camp spawning command
         LevelPropSpawn(uint32 netId, const std::string& name, const std::string& type, float x, float y, float z, float dirX, float dirY, float dirZ, float unk1, float unk2) : BasePacket(PKT_S2C_LevelPropSpawn) {
             buffer << netId;

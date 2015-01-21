@@ -7,7 +7,7 @@
 
 #include <time.h>
 
-const std::string Logger::CurrentDateTime() 
+const std::string Logger::CurrentDateTime()
 {
 	time_t     now = time(0);
 	struct tm  tstruct;
@@ -54,7 +54,7 @@ void Logger::setLogFile(const char *filename, bool plainText, bool showOnScreen)
 }
 
 void Logger::log(const std::string &tag, const char *funcName,
-                 const char *sourceFile, unsigned int lineNum, 
+                 const char *sourceFile, unsigned int lineNum,
 					  const std::string& fmt, ...)
 {
 	std::string fileBuffer;

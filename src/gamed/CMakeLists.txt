@@ -22,12 +22,10 @@ ELSEIF(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     SET(CMAKE_CXX_FLAGS "-std=c++11")
 ENDIF()
 
-file(GLOB win_files *.cpp *.h)
 file(GLOB gameserver_files *.cpp *.h)
 
 set(gameserver_SRCS
     ${gameserver_SRCS}
-    ${gameserver_win}
     ${gameserver_files}
 )
 
@@ -38,7 +36,6 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/dep/raf
     ${CMAKE_SOURCE_DIR}/src/shared
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/win
 )
 
 if (WIN32)
