@@ -5,7 +5,7 @@
 
 #include <stdarg.h>
 
-#include <time.h>
+#include <ctime>
 
 const std::string Logger::CurrentDateTime()
 {

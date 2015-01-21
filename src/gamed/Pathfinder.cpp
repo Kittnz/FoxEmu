@@ -12,9 +12,9 @@
 #include "Champion.h"
 
 Map * Pathfinder::chart = 0;
-auto g_Clock = std::clock(); 
+auto g_Clock = clock();
 
-#define debugOutput() false //((std::clock() - g_Clock) > 4000)
+#define debugOutput() false //((clock() - g_Clock) > 4000)
 
 int successes = 0 , oot = 0, empties = 0;
 
@@ -25,9 +25,9 @@ Path Pathfinder::getPath(Vector2 from, Vector2 to, float boxSize)
 {
 	start_time = std::chrono::high_resolution_clock::now();
    Path path;
-	PathJob job; 
-	
-	if ((std::clock() - g_Clock) > 4000 && (successes + oot + empties) > 0)
+	PathJob job;
+
+	if ((clock() - g_Clock) > 4000 && (successes + oot + empties) > 0)
 	{
 		CORE_INFO("Pathfinding successrate: %f", (((float)successes / (float)(successes + oot + empties))*(100.0f)));
 	}
@@ -35,7 +35,7 @@ Path Pathfinder::getPath(Vector2 from, Vector2 to, float boxSize)
    if (debugOutput())
    {
 		CORE_INFO("Recording this minion movement.");
-   } 
+   }
 
    if (chart == 0) CORE_FATAL("Tried to find a path without setting the map.");
    if (getMesh() == 0) CORE_FATAL("Can't start pathfinding without initialising the AIMesh");
@@ -50,9 +50,9 @@ Path Pathfinder::getPath(Vector2 from, Vector2 to, float boxSize)
 	}
 
    job.insertObstructions(chart, getMesh()); // Ready the map.
-          
+
    job.addToOpenList(job.start, 0); // Let's start at the start.
-	
+
 	int tries;
    for ( tries = 0; job.openList.size() != 0; tries++) // Go through the open list while it's not empty
 	{
@@ -112,7 +112,7 @@ bool PathJob::traverseOpenList(bool first)
 		CORE_INFO("TraverseOpenList! First: %d", first);
 	}
 
-   
+
    // This sorts every iteration, which means that everything but the last couple of elements are sorted.
    // TODO: That means, this can probably be optimised. Sort only the last elements and add them into the vector where they belong.
    // But honestly, it's running pretty fast so why bother
@@ -133,7 +133,7 @@ bool PathJob::traverseOpenList(bool first)
 	}
 
    if (!atDestination) // While we're not there
-   {      
+   {
       for (int dx = -1; dx <= 1; dx++)
       {
          if (currentNode->x + dx >= 0 && currentNode->x + dx < GRID_WIDTH) // Search in 8 directions, but we're supposed to stay in map
@@ -196,7 +196,7 @@ std::vector<Vector2> PathJob::reconstructPath( ) // Make a std::vector of the wa
 std::vector<Vector2> PathJob::reconstructUnfinishedPath() // Let's go over the closed list and go back to the start, create a path from the best choice.
 {
    std::vector<Vector2> ret;
-   
+
    auto a = closedList.back();
    int lowestG = 9e7;
    for (auto i = closedList.begin(); i != closedList.end(); i++)
@@ -250,7 +250,7 @@ PathNode* PathJob::isNodeOpen(int x, int y)
 {
    // TODO: Optimise? This is where the application is residing in 96% of the time during pathfinding.
 
-   // It checks if we've already added this x and y to the openlist. If we did, return it. 
+   // It checks if we've already added this x and y to the openlist. If we did, return it.
    for (auto i = openList.begin(); i != openList.end(); i++)
    {
       if ((*i)->x == x && (*i)->y == y)
@@ -269,7 +269,7 @@ Vector2 PathJob::fromGridToPosition(Vector2 position)
 {
    AIMesh* mesh = Pathfinder::getMesh();
    if (mesh == 0) CORE_FATAL("Tried to get a grid location without an initialised AIMesh!");
-   
+
    return position*PATH_DEFAULT_BOX_SIZE(mesh->getSize());
 }
 
@@ -441,16 +441,16 @@ void PathJob::cleanLists()
 	totalDuration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
 	durations++;
 
-	if ((std::clock() - g_Clock) > 4000)
+	if ((clock() - g_Clock) > 4000)
 	{
 		CORE_INFO("%f milliseconds, %d paths.", (float)totalDuration/(float)durations, durations);
-		g_Clock = std::clock();
+		g_Clock = clock();
 	}
 }
 
 void Pathfinder::setMap(Map * map)
-{ 
-   chart = map; 
+{
+   chart = map;
 }
 
 AIMesh* Pathfinder::getMesh()
@@ -460,7 +460,7 @@ AIMesh* Pathfinder::getMesh()
 }
 
 Path Pathfinder::getPath(Vector2 from, Vector2 to)
-{ 
-   if (!chart->getAIMesh()) CORE_FATAL("Can't get path because of a missing AIMesh."); 
-   return getPath(from, to, PATH_DEFAULT_BOX_SIZE(getMesh()->getSize())); 
+{
+   if (!chart->getAIMesh()) CORE_FATAL("Can't get path because of a missing AIMesh.");
+   return getPath(from, to, PATH_DEFAULT_BOX_SIZE(getMesh()->getSize()));
 }

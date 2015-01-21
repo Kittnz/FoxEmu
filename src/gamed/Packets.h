@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _PACKETS_H
 #define _PACKETS_H
 
-#include <time.h>
+#include <ctime>
 #include <cmath>
 #include <set>
 
