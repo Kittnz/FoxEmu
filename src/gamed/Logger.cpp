@@ -7,9 +7,11 @@
 
 #include <ctime>
 
+using namespace std;
+
 const std::string Logger::CurrentDateTime()
 {
-	time_t     now = std::time(0);
+    time_t     now = time(nullptr);
 	struct tm  tstruct;
 	char       buf[80];
 	tstruct = *std::localtime(&now);

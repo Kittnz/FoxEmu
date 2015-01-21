@@ -58,7 +58,7 @@ void Map::update(int64 diff) {
          }
          
          if(visionUnits[u->getTeam()].find(u->getNetId()) != visionUnits[u->getTeam()].end() && teamHasVisionOn(i, u)) {
-            u->setVisibleByTeam(i, true);
+            u->setVisibleByTeam(i);
             game->notifySpawn(u);
             visionUnits[u->getTeam()].erase(u->getNetId());
             game->notifyUpdatedStats(u, false);
@@ -67,11 +67,11 @@ void Map::update(int64 diff) {
 
          if(!u->isVisibleByTeam(i) && teamHasVisionOn(i, u)) {
             game->notifyEnterVision(u, i);
-            u->setVisibleByTeam(i, true);
+            u->setVisibleByTeam(i);
             game->notifyUpdatedStats(u, false);
          } else if(u->isVisibleByTeam(i) && !teamHasVisionOn(i, u)) {
             game->notifyLeaveVision(u, i);
-            u->setVisibleByTeam(i, false);
+            u->setVisibleByTeam(i);
          }
       }
       

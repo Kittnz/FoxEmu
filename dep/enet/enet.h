@@ -5,6 +5,8 @@
 #ifndef __ENET_ENET_H__
 #define __ENET_ENET_H__
 
+#include "list.h"
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -20,7 +22,6 @@ extern "C"
 
 #include "types.h"
 #include "protocol.h"
-#include "list.h"
 #include "callbacks.h"
 
 #define ENET_VERSION_MAJOR 1

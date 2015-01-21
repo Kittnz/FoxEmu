@@ -186,6 +186,8 @@ bool Game::broadcastPacketVision(Object* o, const uint8 *data, uint32 length, ui
          broadcastPacketTeam((i == 0) ? TEAM_BLUE : TEAM_PURPLE, data, length, channelNo, flag);
       }
    }
+
+   return true;
 }
 
 bool Game::handlePacket(ENetPeer *peer, ENetPacket *packet, uint8 channelID)

@@ -14,12 +14,12 @@ public:
     }
 
     ~Logger();
-	 
+
 	 static const std::string CurrentDateTime();
 	 static const std::string CurrentTime();
 	 void setLogFile(const char* filename, bool isPlainText = false, bool showOnScreen = false);
 
-    void log(const std::string& tag, const char* funcName, const char* sourceFile, 
+    void log(const std::string& tag, const char* funcName, const char* sourceFile,
         unsigned int lineNum, const std::string& fmt, ...);
 
     /**
@@ -63,7 +63,7 @@ private:
 
 #define DEBUG_BREAK raise(SIGTRAP)
 
-#elif defined(_MSC_VER) // Visual studio 
+#elif defined(_MSC_VER) // Visual studio
 
 #define DEBUG_BREAK __debugbreak();
 

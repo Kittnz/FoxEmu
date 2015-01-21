@@ -57,9 +57,6 @@ target_link_libraries(gameserver
     enet
     intlib
     raf
-    game
-    scripts
-    shared
     ${Boost_LIBRARIES}
 )
 
