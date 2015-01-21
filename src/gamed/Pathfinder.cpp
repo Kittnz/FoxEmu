@@ -12,9 +12,9 @@
 #include "Champion.h"
 
 Map * Pathfinder::chart = 0;
-auto g_Clock = clock();
+auto g_Clock = std::clock();
 
-#define debugOutput() false //((clock() - g_Clock) > 4000)
+#define debugOutput() false //((std::clock() - g_Clock) > 4000)
 
 int successes = 0 , oot = 0, empties = 0;
 
@@ -27,7 +27,7 @@ Path Pathfinder::getPath(Vector2 from, Vector2 to, float boxSize)
    Path path;
 	PathJob job;
 
-	if ((clock() - g_Clock) > 4000 && (successes + oot + empties) > 0)
+	if ((std::clock() - g_Clock) > 4000 && (successes + oot + empties) > 0)
 	{
 		CORE_INFO("Pathfinding successrate: %f", (((float)successes / (float)(successes + oot + empties))*(100.0f)));
 	}
@@ -441,10 +441,10 @@ void PathJob::cleanLists()
 	totalDuration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
 	durations++;
 
-	if ((clock() - g_Clock) > 4000)
+	if ((std::clock() - g_Clock) > 4000)
 	{
 		CORE_INFO("%f milliseconds, %d paths.", (float)totalDuration/(float)durations, durations);
-		g_Clock = clock();
+		g_Clock = std::clock();
 	}
 }
 

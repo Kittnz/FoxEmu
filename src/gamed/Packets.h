@@ -65,7 +65,7 @@ class GamePacket : public BasePacket {
 
 public:
    GamePacket(uint8 cmd = 0, uint32 netId = 0) : BasePacket(cmd, netId) {
-      buffer << (uint32)clock();
+      buffer << (uint32)std::clock();
    }
 
 };
@@ -318,7 +318,7 @@ public:
       buffer << (uint32)0x00000000; // unk
       buffer << (uint32)0x00000000; // unk
       buffer << (uint16)0x0200; // unk
-      buffer << (uint32)clock(); // unk
+      buffer << (uint32)std::clock(); // unk
 
       const std::vector<Vector2>& waypoints = m->getWaypoints();
 
@@ -422,7 +422,7 @@ public:
       buffer << 1.0f;
       buffer.fill(0, 13);
       buffer << (uint8)0x02;
-      buffer << (uint32)clock(); // unk
+      buffer << (uint32)std::clock(); // unk
 
       const std::vector<Vector2>& waypoints = m->getWaypoints();
 
@@ -463,7 +463,7 @@ public:
       buffer.fill(0, 13);
 
       buffer << (uint8)2; // Type of data: Waypoints=2
-      buffer << (uint32)clock(); // unk
+      buffer << (uint32)std::clock(); // unk
 
       const std::vector<Vector2>& waypoints = c->getWaypoints();
 
@@ -541,7 +541,7 @@ struct MovementAns {
         MovementAns *packet = (MovementAns *)new uint8[nSize];
         memset(packet, 0, nSize);
         packet->header.cmd = PKT_S2C_MoveAns;
-        packet->header.ticks = clock();
+        packet->header.ticks = std::clock();
         packet->vectorNo = vectorNo;
         return packet;
     }
@@ -600,13 +600,13 @@ struct CharacterStats {
 
    CharacterStats(uint8 masterMask, uint32 netId, uint32 mask, float value) : updateNo(1), masterMask(masterMask), netId(netId), mask(mask), size(4) {
       header.cmd = (GameCmd)PKT_S2C_CharStats;
-      header.ticks = clock();
+      header.ticks = std::clock();
       this->value.fValue = value;
    }
 
    CharacterStats(uint8 masterMask, uint32 netId, uint32 mask, unsigned short value) : updateNo(1), masterMask(masterMask), netId(netId), mask(mask), size(2) {
       header.cmd = (GameCmd)PKT_S2C_CharStats;
-      header.ticks = clock();
+      header.ticks = std::clock();
       this->value.sValue = value;
    }
 
@@ -934,7 +934,7 @@ class LoadScreenPlayerName : public Packet {
 public:
    LoadScreenPlayerName(const ClientInfo& player) : Packet(PKT_S2C_LoadName) {
       buffer << (uint32)player.userId;
-	  buffer << (uint16)clock();
+	  buffer << (uint16)std::clock();
 	  buffer << 0x8E00; //sometimes 0x8E02
       buffer << (uint32)0;
       buffer << (uint32)player.getName().length()+1;
@@ -1175,7 +1175,7 @@ class TeleportRequest : public BasePacket {
 
 public:
     TeleportRequest(int netId,float x, float y, bool first) : BasePacket(PKT_S2C_MoveAns, (uint32) 0x0){
-      buffer << (uint32) clock();//not 100% sure
+      buffer << (uint32) std::clock();//not 100% sure
       buffer << (uint8) 0x01;
       buffer << (uint8) 0x00;
       if(first == true){
