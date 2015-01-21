@@ -9,11 +9,11 @@
 
 const std::string Logger::CurrentDateTime()
 {
-	time_t     now = time(0);
+	time_t     now = std::time(0);
 	struct tm  tstruct;
 	char       buf[80];
-	tstruct = *localtime(&now);
-	strftime(buf, sizeof(buf), "%Y-%m-%d %X", &tstruct);
+	tstruct = *std::localtime(&now);
+	std::strftime(buf, sizeof(buf), "%Y-%m-%d %X", &tstruct);
 
 	return buf;
 }

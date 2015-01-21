@@ -7,9 +7,12 @@
 #include <cstdio>
 #include <cstdlib>
 #include <chrono>
+#include <ctime>
 #include "Logger.h"
 #include "Minion.h"
 #include "Champion.h"
+
+using namespace std;
 
 Map * Pathfinder::chart = 0;
 auto g_Clock = std::clock();

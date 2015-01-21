@@ -21,10 +21,10 @@
 #define PATH_DEFAULT_BOX_SIZE(map_size) (((float)map_size)/((float)GRID_SIZE))
 
 // Use to increase speed on pathfinding, could cause trouble when used on multiple threads
-#define USE_OPTIMISATION 
+#define USE_OPTIMISATION
 
 class PathNode
-{  
+{
 public:
    PathNode(){ InitTable(); }
    PathNode(int ax, int ay, int ag, int ah, PathNode *p){ Init(ax, ay, ag, ah, p); }
@@ -37,7 +37,7 @@ public:
 #ifdef USE_OPTIMISATION
 public:
    void* operator new(size_t size);
-   void operator delete(void * objects); 
+   void operator delete(void * objects);
    static void DestroyTable() { tableInitialised = 2; for (int i = 0; i < TABLE_SIZE; i = 0) delete nodeTable[i]; nodeTable.clear(); tableInitialised = -1; }
    static bool isTableEmpty() { InitTable(); return nodeTable.size() == TABLE_SIZE; }
    static unsigned int missingNodes() { InitTable(); return TABLE_SIZE - nodeTable.size(); }
