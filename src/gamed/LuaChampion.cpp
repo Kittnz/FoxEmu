@@ -1,7 +1,7 @@
 #include "LuaScript.h"
 #include <sol.hpp>
 #include <sol/state.hpp>
-#include <stdafx.h>
+#include <Stdafx.h>
 
 #include "Stats.h"
 #include "Champion.h"

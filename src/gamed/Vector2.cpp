@@ -1,6 +1,6 @@
 // Vector2.cpp
 
-#include "stdafx.h"
+#include "Stdafx.h"
 #include "Vector2.h"
 #include "Object.h"
 

@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include "stdafx.h"
+#include "Stdafx.h"
 #include "Game.h"
 #include "LuaScript.h"
 #include "SummonersRift.h"
@@ -57,7 +57,7 @@ uint32 Game::strToId(std::string str){
     }else if(str == "HEAL"){
         return SPL_Heal;
     }else if(str == "BARRIER"){
-        return SPL_Barrier;  
+        return SPL_Barrier;
     }else if(str == "SMITE"){
         return SPL_Smite;
     }else if(str == "GHOST"){
@@ -69,7 +69,7 @@ uint32 Game::strToId(std::string str){
     }else if(str == "TELEPORT"){
         return SPL_Teleport;
     }
-    
+
     return 0;
 }
 
@@ -96,24 +96,24 @@ bool Game::initialize(ENetAddress *address, const char *baseKey){
 
     _blowfish = new BlowFish((uint8*)key.c_str(), 16);
     initHandlers();
-   
+
    map = new SummonersRift(this);
-   
+
    //TODO: better lua implementation
-   
+
    LuaScript script(false);
-   
+
    script.loadScript("../../lua/config.lua");
-   
+
   //  sol::state lua;
   //  lua.open_libraries(sol::lib::base, sol::lib::table);
-    
+
   //  lua.open_file("../../lua/config.lua");
     sol::table playerList = script.getTable("players");
     for (int i=1;i<12;i++) {
         try {
             std::string playerIndex = "player"+toString(i);
-        
+
             sol::table playerData = playerList.get<sol::table>(playerIndex);
 
             std::string rank = playerData.get<std::string>("rank");
@@ -150,13 +150,13 @@ bool Game::initialize(ENetAddress *address, const char *baseKey){
 
 
            players.push_back(player);
-   
+
         } catch(sol::error e) {
             //CORE_ERROR("Error loading champion: %s", e.what());
-            break;  
+            break;
         }
     }
-   
+
    // Uncomment the following to get 2-players
    /*ClientInfo* player2 = new ClientInfo("GOLD", TEAM_PURPLE);
    player2->setName("tseT");
@@ -168,9 +168,9 @@ bool Game::initialize(ENetAddress *address, const char *baseKey){
    player2->setSkinNo(4);
    player2->userId = 2; // same as StartClient.bat
    player2->setSummoners(SPL_Ignite, SPL_Flash);
-   
+
    players.push_back(player2);*/
-	
+
 	return _isAlive = true;
 }
 
@@ -215,11 +215,11 @@ void Game::netLoop()
       tEnd = tStart;
 	   tStart = std::chrono::high_resolution_clock::now();
 	   tDiff = std::chrono::duration_cast<std::chrono::microseconds>(tStart - tEnd).count();
-      
+
       if(_started) {
          map->update(tDiff);
       }
-      
+
       tEnd = std::chrono::high_resolution_clock::now();
       if(tEnd-(std::chrono::microseconds(REFRESH_RATE)) < tStart) {
          std::this_thread::sleep_for(std::chrono::microseconds(REFRESH_RATE)-(tEnd-tStart));

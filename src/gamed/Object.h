@@ -9,7 +9,7 @@
 
 #include <vector>
 #include "Target.h"
-#include "stdafx.h"
+#include "Stdafx.h"
 #include "Vector2.h"
 
 #pragma STDC FENV_ACCESS ON
@@ -22,20 +22,20 @@ class Map;
 struct MovementVector {
     int16 x;
     int16 y;
-    
+
     MovementVector() : x(0), y(0){ }
     MovementVector(int16 x, int16 y) : x(x), y(y) { }
     MovementVector(float x, float y) : x(targetXToNormalFormat(x)), y(targetYToNormalFormat(y)) { }
 	 Target* toTarget() { return new Target(2.0f*x + MAP_WIDTH, 2.0f*y + MAP_HEIGHT); }
 	 operator Vector2() { return Vector2(2.0f*x + MAP_WIDTH, 2.0f*y + MAP_HEIGHT); }
-    
+
     static int16 targetXToNormalFormat(float _x){
 		 return (int16)(((_x) - MAP_WIDTH )/2.0f);
     }
     static int16 targetYToNormalFormat(float _y){
 		 return (int16)(((_y) - MAP_HEIGHT)/2.0f);
     }
-    
+
 };
 
 class Unit;
@@ -45,7 +45,7 @@ protected:
   	uint32 id;
 
 	float xvector, yvector;
-   
+
    /**
     * Current target the object running to (can be coordinates or an object)
     */
@@ -59,16 +59,16 @@ protected:
    bool movementUpdated;
    bool toRemove;
    uint32 attackerCount;
-   
+
    uint32 collisionRadius;
    Vector2 direction;
    uint32 visionRadius;
-   
+
    bool dashing;
    float dashSpeed;
-   
+
    bool visibleByTeam[2];
-      
+
 public:
    virtual ~Object();
    Object(Map* map, uint32 id, float x, float y, uint32 collisionRadius, uint32 visionRadius = 0);
@@ -80,7 +80,7 @@ public:
    * @param diff the amount of milliseconds the object is supposed to move
    */
    void Move(int64 diff);
-   
+
    Vector2 getDirection() { return direction; }
 
    void calculateVector(float xtarget, float ytarget);
@@ -121,14 +121,14 @@ public:
 
    uint32 getVisionRadius() const { return visionRadius; }
    bool collide(Object* o);
-   
+
    uint32 getAttackerCount() const { return attackerCount; }
    void incrementAttackerCount() { ++attackerCount; }
    void decrementAttackerCount() { --attackerCount; }
 
    bool isVisibleByTeam(uint32 team);
    void setVisibleByTeam(uint32 team, bool visible);
-   
+
    void dashTo(float x, float y, float dashSpeed);
    bool isDashing() const { return dashing; }
 };

@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "stdafx.h"
+#include "Stdafx.h"
 #include "Game.h"
 #include "RAFManager.h"
 #include "Inibin.h"
@@ -24,28 +24,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Logger.h"
 #include "Pathfinder.h"
 
-#define SERVER_HOST ENET_HOST_ANY 
+#define SERVER_HOST ENET_HOST_ANY
 #define SERVER_PORT 5119
 #define SERVER_KEY "17BLOhi6KZsTtldTsizvHg=="
 
 #define SERVER_VERSION "0.2.0"
 
-int main(int argc, char ** argv) 
+int main(int argc, char ** argv)
 {
 	printf("Yorick %s\n", SERVER_VERSION);
 
 	Logger::instance().setLogFile("../../log.html", false, true);
 	CORE_INFO("Loading RAF files in filearchives/.");
-   
+
    std::string basePath = RAFManager::getInstance()->findGameBasePath();
 
    if(!RAFManager::getInstance()->init(basePath + "filearchives")) {
       CORE_ERROR("Couldn't load RAF files. Make sure you have a 'filearchives' directory in the server's root directory. This directory is to be taken from RADS/projects/lol_game_client/");
       return EXIT_FAILURE;
    }
-   
+
    ItemManager::getInstance()->init();
-   
+
    CORE_INFO("Game started");
 
 	Game g;
@@ -59,8 +59,8 @@ int main(int argc, char ** argv)
    }
 
 	g.netLoop();
-   
+
    PathNode::DestroyTable(); // Cleanup
-	
+
    return EXIT_SUCCESS;
 }

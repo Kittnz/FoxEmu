@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "Stdafx.h"
 #include "Game.h"
 #include "Packets.h"
 #include "Logger.h"
@@ -9,9 +9,9 @@ using namespace std;
 
 void Game::notifyMinionSpawned(Minion* m, int team) {
    MinionSpawn ms(m);
-   
+
    broadcastPacketTeam(team == 0 ? TEAM_BLUE : TEAM_PURPLE, ms, CHL_S2C);
-   
+
    notifySetHealth(m);
 }
 
@@ -22,13 +22,13 @@ void Game::notifySetHealth(Unit* u) {
 
 void Game::notifyUpdatedStats(Unit* u, bool partial) {
    UpdateStats us(u, partial);
-   
+
    Turret* t = dynamic_cast<Turret*>(u);
    if(t) {
       broadcastPacket(us, CHL_LOW_PRIORITY, 2);
       return;
    }
-   
+
    if(!partial) {
       broadcastPacketTeam((1-u->getTeam()) == 0 ? TEAM_BLUE : TEAM_PURPLE, us, CHL_LOW_PRIORITY, 2);
    } else {
@@ -68,14 +68,14 @@ void Game::notifyTeleport(Unit* u, float _x, float _y) {
 void Game::notifyMovement(Object* o) {
    const std::vector<Vector2>& waypoints = o->getWaypoints();
    MovementAns *answer = MovementAns::create(waypoints.size()*2);
-   
+
    answer->nbUpdates = 1;
    answer->netId = o->getNetId();
    for(size_t i = 0; i < waypoints.size(); i++) {
 		answer->getVector(i)->x = MovementVector::targetXToNormalFormat(waypoints[i].X);
 		answer->getVector(i)->y = MovementVector::targetYToNormalFormat(waypoints[i].Y);
    }
-   
+
    broadcastPacketVision(o, reinterpret_cast<uint8 *>(answer), answer->size(), 4);
    MovementAns::destroy(answer);
 }
@@ -126,7 +126,7 @@ void Game::notifyItemBought(Champion* c, const ItemInstance* i) {
    response.itemId = i->getTemplate()->getId();
    response.slotId = i->getSlot();
    response.stack = i->getStacks();
-   
+
    broadcastPacketVision(c, reinterpret_cast<uint8 *>(&response), sizeof(response), CHL_S2C);
 }
 
@@ -198,17 +198,17 @@ void Game::notifyDebugMessage(std::string htmlDebugMessage) {
 void Game::notifySpawn(Unit* u) {
 
    Minion* m = dynamic_cast<Minion*>(u);
-   
+
    if(m) {
       notifyMinionSpawned(m, 1-m->getTeam());
    }
-   
+
    Champion* c = dynamic_cast<Champion*>(u);
-   
+
    if(c) {
       notifyChampionSpawned(c, 1-c->getTeam());
    }
-   
+
    notifySetHealth(u);
 }
 
@@ -226,16 +226,16 @@ void Game::notifyLeaveVision(Object* o, uint32 team) {
 
 void Game::notifyEnterVision(Object* o, uint32 team) {
    Minion* m = dynamic_cast<Minion*>(o);
-   
+
    if(m) {
       EnterVisionAgain eva(m);
       broadcastPacketTeam(team == 0 ? TEAM_BLUE : TEAM_PURPLE, eva, CHL_S2C);
       notifySetHealth(m);
       return;
    }
-   
+
    Champion* c = dynamic_cast<Champion*>(o);
-   
+
    // TODO: Fix bug where enemy champion is not visible to user when vision is acquired until the enemy champion moves
    if(c) {
       EnterVisionAgain eva(c);

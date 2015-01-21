@@ -1,5 +1,5 @@
 #include <sol.hpp>
-#include <stdafx.h>
+#include <Stdafx.h>
 
 #ifndef LUASCRIPT_H
 #define	LUASCRIPT_H
@@ -15,7 +15,7 @@ public:
     void setFunction();
     void setLoaded(bool load){ loaded = load;}
     sol::state lua;
-    
+
     void addChampion();
     void addUnit ();
     void addItem ();

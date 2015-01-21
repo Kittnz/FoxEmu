@@ -5,7 +5,7 @@
 #include <vector>
 #include <utility>
 
-#include "stdafx.h"
+#include "Stdafx.h"
 #include "Object.h"
 #include "AIMesh.h"
 #include "Champion.h"
@@ -16,7 +16,7 @@ class CollisionHandler;
 class Fountain;
 class Minion;
 
-class Map 
+class Map
 {
 protected:
    std::map<uint32, Object*> objects;
@@ -39,7 +39,7 @@ protected:
 
    CollisionHandler *collisionHandler;
    Fountain *fountain;
-   
+
 public:
    CollisionHandler *getCollisionHandler() { return collisionHandler; }
    Map(Game* game, uint64 firstSpawnTime, uint64 spawnInterval, uint64 firstGoldTime, bool hasFountainHeal);
@@ -50,7 +50,7 @@ public:
 
 	virtual std::pair<int, Vector2> getMinionSpawnPosition(uint32 spawnPosition) const = 0;
 	virtual void setMinionStats(Minion* minion) const = 0;
-   
+
    Object* getObjectById(uint32 id);
    void addObject(Object* o);
    void removeObject(Object* o);
@@ -60,27 +60,27 @@ public:
    virtual const Target getRespawnLocation(int team) const = 0;
    virtual float getGoldFor(Unit* u) const = 0;
    virtual float getExperienceFor(Unit* u) const = 0 ;
-   
+
    Game* getGame() const { return game; }
-   
+
    const std::map<uint32, Object*>& getObjects() { return objects; }
    void stopTargeting(Unit* target);
 
    std::vector<Champion*> getChampionsInRange(Target* t, float range, bool isAlive = false);
    std::vector<Unit*> getUnitsInRange(Target* t, float range, bool isAlive = false);
-   
+
    bool getFirstBlood() { return firstBlood; }
    void setFirstBlood(bool state) { firstBlood = state; }
 
    AIMesh *getAIMesh() { return &mesh; }
    float getHeightAtLocation(float x, float y) { return mesh.getY(x, y); }
    bool isWalkable(float x, float y) { return mesh.isWalkable(x, y); }
-   
+
    bool getKillReduction() { return killReduction; }
    void setKillReduction(bool state) { killReduction = state; }
-   
+
    MovementVector toMovementVector(float x, float y);
-   
+
    bool teamHasVisionOn(int team, Object* o);
 
    virtual const int getMapId() const = 0;

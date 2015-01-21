@@ -1,6 +1,4 @@
-#include "../gamed/include/stdafx.h"
-
-
+#include "../src/shared/Stdafx.h"
 
 /** Functions made by Intline9 **/
 unsigned int getHash(const char *str)
@@ -36,12 +34,12 @@ unsigned int getCharacterHash(char *szName, unsigned int nSkin) {
 
 int main(int argc, char **argv)
 {
-      if (argc < 2) { 
-    fprintf(stderr, "Usage: %s spell name(for example SummonerRevive)\n", argv[0]); 
-    return 1; 
+      if (argc < 2) {
+    fprintf(stderr, "Usage: %s spell name(for example SummonerRevive)\n", argv[0]);
+    return 1;
   }
-      
 
-      
-  fprintf(stderr,"%08X ; %08X\n", getHash(argv[1]), getCharacterHash(argv[1], 0)); 
+
+
+  fprintf(stderr,"%08X ; %08X\n", getHash(argv[1]), getCharacterHash(argv[1], 0));
 }

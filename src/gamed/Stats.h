@@ -7,7 +7,7 @@
 #include <cmath>
 #include <vector>
 
-#include "stdafx.h"
+#include "Stdafx.h"
 #include "common.h"
 #include "Logger.h"
 
@@ -31,7 +31,7 @@ enum FieldMaskTwo : uint32 {
     FM2_Bonus_Ad_Pct =      0x00008000, // AD percentage bonuses. 0.5 = 50%
     FM2_Bonus_Ap_Flat =     0x00010000, // AP flat bonuses
     FM2_Atks_multiplier =   0x00080000, // Attack speed multiplier. If set to 2 and champ's base attack speed is 0.600, then his new AtkSpeed becomes 1.200
-    FM2_cdr =               0x00400000, // Cooldown reduction. 0.5 = 50%   
+    FM2_cdr =               0x00400000, // Cooldown reduction. 0.5 = 50%
     FM2_Armor_Pen_Flat =    0x01000000,
     FM2_Armor_Pen_Pct =     0x02000000, // Armor pen. 0.5 = 50%
     FM2_Magic_Pen_Flat =    0x04000000,
@@ -84,7 +84,7 @@ protected:
     bool generatingGold; // Used to determine if the stats update should include generating gold. Changed in Champion.h
 
     float baseMovement, baseAttackSpeed;
-    
+
     float spellCostReduction; //URF Buff/Lissandra's passive
     float critDamagePct; //Default = 2... add with runes/items (change with yasuo's passive)
 public:
@@ -99,16 +99,16 @@ public:
     const std::map<uint8, std::set<uint32> >& getUpdatedStats() const {
         return updatedStats;
     }
-    
+
     const std::map<uint8, std::set<uint32> > getAllStats() const {
       std::map<uint8, std::set<uint32> > toReturn;
-      
+
       for(uint8 i = 0; i < 5; ++i) {
          for(auto kv : stats[i]) {
             toReturn[(1 << i)].insert(kv.first);
          }
       }
-      
+
       return toReturn;
     }
 
@@ -404,11 +404,11 @@ public:
     virtual void setMp5RegenPerLevel(float mpRegen) {
         mp5RegenPerLevel = mpRegen;
     }
-    
+
     virtual float getSpellCostReduction () const {
         return spellCostReduction;
     }
-    
+
     virtual void setSpellCostReduction (float scr) {
         spellCostReduction = scr;
     }

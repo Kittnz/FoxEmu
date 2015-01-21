@@ -1,7 +1,7 @@
 #ifndef _SPELL_H
 #define _SPELL_H
 
-#include "stdafx.h"
+#include "Stdafx.h"
 #include "Projectile.h"
 #include "RAFFile.h"
 #include <vector>
@@ -74,88 +74,88 @@ protected:
    std::string spellName;
    uint8 targetType;
    uint32 flags, projectileFlags;
-   
+
    float castTime;
    float castRange;
    float projectileSpeed;
    float lineWidth;
    std::array<float, 5> cooldown;
    std::array<float, 5> cost;
-   
+
    // Warning : this value usually contains one of the "ad/ap" bonus coefficient, as seen in "deals 50 (+{coefficient}%) damage"
    // However, it may not be accurate and there's no way to tell whether it's the ad or ap bonus for hybrid spells
    // Sometimes, it is also stored as an effect value instead of the coefficient
    float coefficient;
    std::vector< std::vector<float> > effects;
-   
+
    float range;
-   
+
    SpellState state;
    float currentCooldown;
    float currentCastTime;
    uint32 futureProjNetId;
    uint32 spellNetId;
-   
+
    Unit* target;
    float x, y;
-   
+
 public:
    Spell(Champion* owner, const std::string& spellName, uint8 slot);
-   
+
    /**
     * Called when the character casts the spell
     */
    virtual bool cast(float x, float y, Unit* u = 0, uint32 futureProjNetId = 0, uint32 spellNetId = 0);
-   
+
    /**
     * Called when the spell is finished casting and we're supposed to do things
     * such as projectile spawning, etc.
     */
    virtual void finishCasting();
-   
+
    /**
     * Called every diff milliseconds to update the spell
     */
    virtual void update(int64 diff);
-   
+
    /**
     * Called by projectiles when they land / hit
     * In here we apply the effects : damage, buffs, debuffs...
     */
    virtual void applyEffects(Unit* t, Projectile* p = 0);
-   
+
    Champion* getOwner() const { return owner; }
-   
+
    /**
     * @return Spell's unique ID
     */
    uint32 getId() const;
    float getCastTime() const { return castTime; }
-   
+
    std::string getStringForSlot();
-   
+
    /*
     * does spell effects in lua if defined.
     */
    void doLua();
    void loadLua(LuaScript& script);
    void reloadLua();
-   
+
    void setSlot(int _slot){
        slot=_slot;
    }
-   
+
    /**
     * TODO : Add in CDR % from champion's stat
     */
-   float getCooldown() const { 
+   float getCooldown() const {
       return 0; // TODO: Remove this
       if(!level) {
          return 0;
       }
       return cooldown[level-1];
    }
-   
+
    /**
     * @return the mana/energy/health cost
     */
@@ -166,21 +166,21 @@ public:
       }
       return cost[level-1];
    }
-   
+
    uint32 getFlags() const { return flags; }
-   
+
    uint8 getLevel() const {
       return level;
    }
-   
+
    virtual void levelUp() {
       ++level;
    }
-   
+
    SpellState getState() const {
       return state;
    }
-   
+
    uint8 getSlot() const {
       return slot;
    }

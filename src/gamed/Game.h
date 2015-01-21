@@ -42,13 +42,13 @@ class Game
 	public:
 		Game();
 		~Game();
-                
+
       uint32 strToId(std::string str);
 
 		bool initialize(ENetAddress *address, const char *baseKey);
 		void netLoop();
-      
-   
+
+
 		bool handlePacket(ENetPeer *peer, ENetPacket *packet, uint8 channelID);
       bool handleDisconnect(ENetPeer* peer);
 
@@ -75,7 +75,7 @@ class Game
       bool handleClick(HANDLE_ARGS);
       bool handleSwapItems(HANDLE_ARGS);
       bool handleHeartBeat(HANDLE_ARGS);
-      
+
       // Notifiers
       void notifyMinionSpawned(Minion* m, int team);
       void notifySetHealth(Unit* u);
@@ -119,7 +119,7 @@ class Game
 		// Tools
 		static void printPacket(const uint8 *buf, uint32 len);
 		void printLine(uint8 *buf, uint32 len);
-      
+
    protected:
 		bool sendPacket(ENetPeer *peer, const uint8 *data, uint32 length, uint8 channelNo, uint32 flag = RELIABLE);
       bool sendPacket(ENetPeer *peer, const Packet& packet, uint8 channelNo, uint32 flag = RELIABLE);
@@ -137,11 +137,11 @@ class Game
 		BlowFish *_blowfish;
       ENetPeer* currentPeer;
       std::vector<ClientInfo*> players;
-      
+
       void registerHandler(bool (Game::*handler)(HANDLE_ARGS), PacketCmd pktcmd,Channel c);
       bool (Game::*_handlerTable[0x100][0x7])(HANDLE_ARGS);
       void initHandlers();
-      
+
       Map* map;
 };
 

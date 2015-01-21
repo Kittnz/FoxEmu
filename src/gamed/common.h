@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _COMMON_H
 #define _COMMON_H
 
-#include "stdafx.h"
+#include "Stdafx.h"
 
 enum GameCmd : uint8
 {
@@ -27,7 +27,7 @@ enum GameCmd : uint8
 
 //Currently attuned to GAME_VERSION [Game.h]
 enum PacketCmd : uint8
-{                                            
+{
    PKT_KeyCheck = 0x00,
    PKT_C2S_HeartBeat = 0x08,
    PKT_C2S_SellItem = 0x09,
@@ -42,7 +42,7 @@ enum PacketCmd : uint8
    PKT_S2C_EditBuff = 0x1C,
    PKT_C2S_SwapItems = 0x20,
    PKT_S2C_AddGold = 0x22,
-   
+
    PKT_S2C_PlayerInfo = 0x2A,
 
    PKT_S2C_ViewAns = 0x2C,
@@ -109,9 +109,9 @@ enum PacketCmd : uint8
    PKT_S2C_NPC_Hide = 0x9E, // (4.18) not sure what this became
 
    PKT_C2S_Surrender = 0xA4,
-   PKT_C2S_StatsConfirm = 0xA8, 
-   PKT_S2C_SetHealth = 0xAE, 
-   PKT_C2S_Click = 0xAF, 
+   PKT_C2S_StatsConfirm = 0xA8,
+   PKT_S2C_SetHealth = 0xAE,
+   PKT_C2S_Click = 0xAF,
 
    PKT_S2C_SpellAnimation = 0xB0,
    PKT_S2C_CastSpellAns = 0xB5,
@@ -177,7 +177,7 @@ enum SpellIds : uint32
    SPL_Ignite = 0x06364F24,
    SPL_Promote = 0x0410FF72,
    SPL_Clair = 0x09896765,
-   SPL_Flash = 0x06496EA8, 
+   SPL_Flash = 0x06496EA8,
    SPL_Test = 0x0103D94C,
 };
 

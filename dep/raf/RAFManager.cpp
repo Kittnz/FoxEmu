@@ -1,6 +1,6 @@
 #include "RAFManager.h"
 #include "tinydir.h"
-#include "stdafx.h"
+#include "Stdafx.h"
 //#include "Logger.h"
 
 
@@ -30,29 +30,29 @@ bool RAFManager::init(const string& rootDirectory) {
 
       tinydir_dir subDir;
       tinydir_open_sorted(&subDir, (rootDirectory + '/' + file.name).c_str());
-      
+
       for (size_t j = 0; j < subDir.n_files; j++)
       {
          tinydir_file subFile;
          tinydir_readfile_n(&subDir, &subFile, j);
-      
+
          string filename(subFile.name);
          string check = ".raf";
-         
+
          if(filename.length() >= 5 && filename.find(check) && filename[filename.length()-1] == 'f') {
             string rafPath = rootDirectory + '/' + file.name + '/' + filename;
             RAFFile* raf = new RAFFile(rafPath);
             files.push_back(raf);
          }
       }
-      
+
       tinydir_close(&subDir);
    }
-   
+
    printf("Loaded %lu RAF files", files.size());
 
    tinydir_close(&dir);
-   
+
    return true;
 }
 
@@ -63,7 +63,7 @@ bool RAFManager::readFile(const std::string& path, vector<unsigned char>& toFill
          return true;
       }
    }
-   
+
    return false;
 }
 std::string RAFManager::findGameBasePath()
@@ -72,7 +72,7 @@ std::string RAFManager::findGameBasePath()
 #ifdef _WIN32
 	HKEY hKey;
 	std::vector<string> strKeyPathCU, strKeyPathLM;
-	strKeyPathCU.push_back("SOFTWARE\\RIOT GAMES\\RADS"); 
+	strKeyPathCU.push_back("SOFTWARE\\RIOT GAMES\\RADS");
 	strKeyPathCU.push_back("VirtualStore\\MACHINE\\SOFTWARE\\Wow6432Node\\RIOT GAMES\\RADS");
 	strKeyPathCU.push_back("SOFTWARE\\Classes\\VirtualStore\\MACHINE\\SOFTWARE\\Wow6432Node\\RIOT GAMES\\RADS");
 	strKeyPathCU.push_back("SOFTWARE\\Classes\\VirtualStore\\MACHINE\\SOFTWARE\\RIOT GAMES\\RADS");

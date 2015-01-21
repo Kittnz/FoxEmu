@@ -1,6 +1,6 @@
 Wireshark Dissector for "LoL ENET"
 ==================
- 
+
 Tested with
 -------
 * Wireshark Version 1.12.0 (v1.12.0-0-g4fab41a from master-1.12)
@@ -9,7 +9,7 @@ Tested with
   * 64-bit Windows 7 Service Pack 1
   * Win 8.1 64-bit
 * MinGW x64-4.8.1-release-posix-sjlj-rev5
- 
+
 Setup
 -------
 1. Download x64-4.8.1-release-posix-sjlj-rev5 from mingwbuilds (http://sourceforge.net/projects/mingwbuilds/files/host-windows/releases/4.8.1/64-bit/threads-posix/sjlj/)
@@ -19,7 +19,7 @@ Setup
 Installation
 -------
 1. build the dll -> Compile.bat
-2. 
+2.
   1. use Install.bat
   2. or copy the files & folders:
 	 * enet.lua
@@ -52,8 +52,8 @@ the lua script executes a VBScript to get the game key.
 This key is then saved in a file in "your personal plugin folder"/lolkeys.
 The filename contains the date&time of the first ENET packet and the server port.
 If you open an already created .pcap file, the dissector will look for a matching key file.
-If none is found, an empty file is created (you should have the corresponding game base64 key somewhere, 
+If none is found, an empty file is created (you should have the corresponding game base64 key somewhere,
 else the capture is useless), so you can fill it with the correct key.
- 
-Best case scenario: It captures the packets, marks the ones from LoL as "ENET", 
+
+Best case scenario: It captures the packets, marks the ones from LoL as "ENET",
 saves they key in the corresponding key file, and shows the decrypted content in Wireshark.

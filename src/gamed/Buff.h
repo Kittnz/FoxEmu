@@ -1,7 +1,7 @@
 #ifndef BUFF_H
 #define BUFF_H
 
-#include "stdafx.h"
+#include "Stdafx.h"
 #include <string>
 
 class Unit;
@@ -11,8 +11,6 @@ enum BuffType{
 BUFFTYPE_ETERNAL,
 BUFFTYPE_TEMPORARY
 };
-
-
 
 class Buff{
 protected:
@@ -24,7 +22,7 @@ protected:
    Unit* attacker; // who added this buff to the unit it's attached to
    BuffType buffType;
    LuaScript* buffScript;
-   
+
    void init();
    std::string name;
 
@@ -34,12 +32,12 @@ public:
    Unit* const getUnit(){
       return attachedTo;
    }
-   
+
    void setName(const std::string& name){
       this->name = name;
    }
-   
-    
+
+
    bool needsToRemove() { return remove; }
    Buff(std::string buffName, float dur, BuffType type, Unit* u, Unit* attacker);
    Buff(std::string buffName, float dur, BuffType type, Unit* u) : Buff(buffName, dur, type, u, u) { } //no attacker specified = selfbuff, attacker aka source is same as attachedto
@@ -47,18 +45,18 @@ public:
    float getMovementSpeedPercentModifier() { return movementSpeedPercentModifier;}
 
    void setMovementSpeedPercentModifier(float modifier){ movementSpeedPercentModifier = modifier; }
-   
+
    std::string getName() const {
       return name;
    }
-   
+
    void setTimeElapsed(float time){
    timeElapsed = time;
    }
-   
+
 
    void update(int64 diff);
-   
+
 };
 
 

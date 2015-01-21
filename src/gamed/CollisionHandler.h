@@ -1,7 +1,7 @@
 #ifndef _COLLISIONHANDLER_H
 #define _COLLISIONHANDLER_H
 
-#include "stdafx.h"
+#include "Stdafx.h"
 #include "Map.h"
 #include "Vector2.h"
 #include "Logger.h"
@@ -38,7 +38,7 @@ private:
    void correctUnmanagedDivision();
    void addToDivision(Object* object, int x, int y);
    void addUnmanagedObject(Object* object);
-   
+
    void removeFromDivision(Object* object, int i);
    int width, height;
    CollisionDivision managedDivisions[3*3];
