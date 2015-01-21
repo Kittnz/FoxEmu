@@ -34,7 +34,7 @@
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_APPICON             ICON                    "gameserver.ico"
+IDI_APPICON             ICON                    "gamenode.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 // Neutre (Par défaut système) resources
@@ -74,12 +74,12 @@ BEGIN
         BLOCK "080004b0"
         BEGIN
             VALUE "CompanyName",        VER_COMPANYNAME_STR
-            VALUE "FileDescription",    "FoxEmu game server daemon"
+            VALUE "FileDescription",    "FoxEmu game node daemon"
             VALUE "FileVersion",        VER_FILEVERSION_STR
-            VALUE "InternalName",       "gameserver"
+            VALUE "InternalName",       "gamenode"
             VALUE "LegalCopyright",     VER_LEGALCOPYRIGHT_STR
-            VALUE "OriginalFilename",   "gameserver.exe"
-            VALUE "ProductName",        "FoxEmu game server daemon"
+            VALUE "OriginalFilename",   "gamenode.exe"
+            VALUE "ProductName",        "FoxEmu game node daemon"
             VALUE "ProductVersion",     VER_PRODUCTVERSION_STR
         END
     END

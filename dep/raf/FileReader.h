@@ -7,25 +7,24 @@
 
 #include "Stdafx.h"
 
-class FileReader {
-public:
-   FileReader(const std::string& filename);
-   
-   template<typename U>
-   FileReader& operator>>(U& data)
-   {
-      file.read(reinterpret_cast<char*>(&data), sizeof(U));
-      return *this;
-   }
+class FileReader
+{
+   public:
+      FileReader(const std::string& filename);
 
-   void seek(uint32 offset);
-   uint32 pos();
-   void read(std::vector<unsigned char>&, uint32 size);
+      template<typename U>
+      FileReader& operator>>(U& data)
+      {
+         file.read(reinterpret_cast<char*>(&data), sizeof(U));
+         return *this;
+      }
 
-private:
-   std::ifstream file;
+      void seek(uint32 offset);
+      uint32 pos();
+      void read(std::vector<unsigned char>&, uint32 size);
 
+   private:
+      std::ifstream file;
 };
-
 
 #endif

@@ -35,32 +35,33 @@ int main(int argc, char ** argv)
 	printf("Yorick %s\n", SERVER_VERSION);
 
 	Logger::instance().setLogFile("../../log.html", false, true);
-	CORE_INFO("Loading RAF files in filearchives/.");
 
-   std::string basePath = RAFManager::getInstance()->findGameBasePath();
+	CORE_INFO(">> Loading RAF files ...");
 
-   if(!RAFManager::getInstance()->init(basePath + "filearchives")) {
-      CORE_ERROR("Couldn't load RAF files. Make sure you have a 'filearchives' directory in the server's root directory. This directory is to be taken from RADS/projects/lol_game_client/");
-      return EXIT_FAILURE;
-   }
+    if (!RAFManager::getInstance()->init("filearchives"))
+    {
+        CORE_ERROR("Couldn't load RAF files. Make sure you have a 'filearchives' directory in the server's root directory. This directory is to be taken from RADS/projects/lol_game_client/");
+        return EXIT_FAILURE;
+    }
 
-   ItemManager::getInstance()->init();
+    ItemManager::getInstance()->init();
 
-   CORE_INFO("Game started");
+    CORE_INFO("Game started");
 
 	Game g;
 	ENetAddress address;
 	address.host = SERVER_HOST;
 	address.port = SERVER_PORT;
 
-   if (!g.initialize(&address, SERVER_KEY)) {
-      CORE_ERROR("Couldn't listen on port %d, or invalid key", SERVER_PORT);
-      return EXIT_FAILURE;
-   }
+    if (!g.initialize(&address, SERVER_KEY))
+    {
+        CORE_ERROR("Couldn't listen on port %d, or invalid key", SERVER_PORT);
+        return EXIT_FAILURE;
+    }
 
 	g.netLoop();
 
-   PathNode::DestroyTable(); // Cleanup
+    PathNode::DestroyTable(); // Cleanup
 
-   return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }

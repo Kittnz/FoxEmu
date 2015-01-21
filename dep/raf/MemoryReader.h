@@ -7,49 +7,54 @@
 
 #include "Stdafx.h"
 
-class MemoryReader {
-public:
-   MemoryReader(const std::vector<unsigned char>& buffer) : buffer(buffer) { }
+class MemoryReader
+{
+    public:
+        MemoryReader(const std::vector<unsigned char>& buffer) : buffer(buffer) { }
 
-   template<typename U>
-   MemoryReader& operator>>(U& data)
-   {
-      memcpy(&data, &buffer[0], sizeof(U));
-      buffer.erase(buffer.begin(), buffer.begin()+sizeof(U));
+        template<typename U>
 
-      return *this;
-   }
+        MemoryReader& operator>>(U& data)
+        {
+            memcpy(&data, &buffer[0], sizeof(U));
+            buffer.erase(buffer.begin(), buffer.begin()+sizeof(U));
 
-   MemoryReader& operator>>(std::string& data)
-   {
-      int i = 0;
-      for(; buffer[i] != 0; ++i);
-      ++i;
+            return *this;
+        }
 
-      data.assign(reinterpret_cast<char*>(&buffer[0]), i);
-      buffer.erase(buffer.begin(), buffer.begin()+i);
+        MemoryReader& operator>>(std::string& data)
+        {
+            int i = 0;
 
-      return *this;
-   }
+            for (; buffer[i] != 0; ++i);
+            ++i;
 
-   void skip(uint32 toSkip) {
-      if(toSkip > buffer.size()) {
-         return;
-      }
-      buffer.erase(buffer.begin(), buffer.begin()+toSkip);
-   }
+            data.assign(reinterpret_cast<char*>(&buffer[0]), i);
+            buffer.erase(buffer.begin(), buffer.begin()+i);
 
-   uint32 size() {
-      return buffer.size();
-   }
+            return *this;
+        }
 
-   const std::vector<unsigned char>& getBytes() {
-      return buffer;
-   }
+        void skip(uint32 toSkip)
+        {
+            if (toSkip > buffer.size())
+                return;
 
-private:
-   std::vector<unsigned char> buffer;
+            buffer.erase(buffer.begin(), buffer.begin()+toSkip);
+        }
 
+        uint32 size()
+        {
+            return buffer.size();
+        }
+
+        const std::vector<unsigned char>& getBytes()
+        {
+            return buffer;
+        }
+
+    private:
+        std::vector<unsigned char> buffer;
 };
 
 #endif

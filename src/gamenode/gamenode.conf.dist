@@ -1,12 +1,13 @@
 ###########################################
-#  FoxEmu Game Server configuration file  #
+#   FoxEmu Game Node configuration file   #
 ###########################################
-[gameserver]
+[gamenode]
 
 ###################################################################################################
 # SECTION INDEX
 #
 #    EXAMPLE CONFIG
+#    NODE CONFIG
 #    SERVER CONNECTIONS
 #    LOGGING SYSTEM SETTINGS
 #
@@ -25,6 +26,18 @@
 # Note to developers:
 # - Copy this example to keep the formatting.
 # - Line breaks should be at column 100.
+###################################################################################################
+
+###################################################################################################
+# NODE CONFIG
+#
+#    NodeID
+#        Description: Node identifier on logon nodes table.
+#        Default:     1 - (NodeId: 1)
+
+NodeId = 1
+
+#
 ###################################################################################################
 
 ###################################################################################################

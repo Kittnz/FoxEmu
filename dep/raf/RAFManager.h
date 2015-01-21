@@ -5,26 +5,24 @@
 #include <string>
 #include <vector>
 
-class RAFManager {
-public:
-   static RAFManager* getInstance() {
-      if(!instance) {
-         instance = new RAFManager();
-      }
-      
-      return instance;
-   }
-   
-   bool init(const std::string& rootDirectory);
-   std::string findGameBasePath();
-   bool readFile(const std::string& path, std::vector<unsigned char>& toFill);
+class RAFManager
+{
+    public:
+        static RAFManager* getInstance()
+        {
+            if (!instance)
+                instance = new RAFManager();
 
-private:
-   RAFManager() { }
-   std::vector<RAFFile*> files;
-   static RAFManager* instance;
+            return instance;
+        }
 
+        bool init(const std::string& rootDirectory);
+        bool readFile(const std::string& path, std::vector<unsigned char>& toFill);
 
+    private:
+        RAFManager() { }
+        std::vector<RAFFile*> files;
+        static RAFManager* instance;
 };
 
 #endif

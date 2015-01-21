@@ -7,20 +7,20 @@
 
 Map::Map(Game* game, uint64 firstSpawnTime, uint64 spawnInterval, uint64 firstGoldTime, bool hasFountainHeal = false) : game(game), waveNumber(0), firstSpawnTime(firstSpawnTime), firstGoldTime(firstGoldTime), spawnInterval(spawnInterval), gameTime(0), nextSpawnTime(firstSpawnTime), nextSyncTime(10 * 1000000), firstBlood(true), killReduction(true), hasFountainHeal(hasFountainHeal)
 {
-   collisionHandler = new CollisionHandler(this);
-   fountain = new Fountain();
+   /*collisionHandler = new CollisionHandler(this);
+   fountain = new Fountain();*/
 }
 
 Map::~Map()
-{ 
-   delete collisionHandler; 
+{
+   delete collisionHandler;
    delete fountain;
 }
 
 void Map::update(int64 diff) {
 
    for(auto kv = objects.begin(); kv != objects.end();) {
-	   if (kv->second->isToRemove()) 
+	   if (kv->second->isToRemove())
 	   {
          if (kv->second->getAttackerCount() == 0)
          {
@@ -43,7 +43,7 @@ void Map::update(int64 diff) {
          game->notifyMovement(kv->second);
          kv->second->clearMovementUpdated();
       }
-      
+
       Unit* u = dynamic_cast<Unit*>(kv->second);
 
       if(!u) {
@@ -51,12 +51,12 @@ void Map::update(int64 diff) {
          ++kv;
          continue;
       }
-      
+
       for(uint32 i = 0; i < 2; ++i) {
          if(u->getTeam() == i) {
             continue;
          }
-         
+
          if(visionUnits[u->getTeam()].find(u->getNetId()) != visionUnits[u->getTeam()].end() && teamHasVisionOn(i, u)) {
             u->setVisibleByTeam(i);
             game->notifySpawn(u);
@@ -74,9 +74,9 @@ void Map::update(int64 diff) {
             u->setVisibleByTeam(i);
          }
       }
-      
+
       if(u->buffs.size() != 0){
-    
+
           for(int i = u->buffs.size(); i>0;i--){
 
               if(u->buffs[i-1]->needsToRemove()){
@@ -93,17 +93,17 @@ void Map::update(int64 diff) {
          game->notifyUpdatedStats(u);
          u->getStats().clearUpdatedStats();
       }
-      
+
       if(u->getStats().isUpdatedHealth()) {
          game->notifySetHealth(u);
          u->getStats().clearUpdatedHealth();
       }
-      
+
       if(u->isModelUpdated()) {
          game->notifyModelUpdate(u);
          u->clearModelUpdated();
       }
-      
+
       kv->second->update(diff);
       ++kv;
 	}
@@ -124,7 +124,7 @@ void Map::update(int64 diff) {
          }
       }
    }
-   
+
    gameTime += diff;
    nextSyncTime += diff;
 
@@ -133,8 +133,8 @@ void Map::update(int64 diff) {
       game->notifyGameTimer();
       nextSyncTime = 0;
    }
-   
-   if(waveNumber) { 
+
+   if(waveNumber) {
       if(gameTime >= nextSpawnTime+waveNumber*8*100000) { // Spawn new wave every 0.8s
          if(spawn()) {
             waveNumber = 0;
@@ -142,12 +142,12 @@ void Map::update(int64 diff) {
          } else {
             ++waveNumber;
          }
-      }  
+      }
    } else if(gameTime >= nextSpawnTime) {
       spawn();
       ++waveNumber;
    }
-   
+
    if (hasFountainHeal)
       fountain->healChampions(this, diff);
 }
@@ -156,13 +156,13 @@ Object* Map::getObjectById(uint32 id) {
    if(objects.find(id) == objects.end()) {
       return 0;
    }
-   
+
    return objects[id];
 }
 
 void Map::addObject(Object* o) {
    objects[o->getNetId()] = o;
-   
+
    Unit* u = dynamic_cast<Unit*>(o);
    if(!u) {
       return;
@@ -171,15 +171,15 @@ void Map::addObject(Object* o) {
 	collisionHandler->addObject(o);
 
    visionUnits[o->getTeam()][o->getNetId()] = u;
-   
+
    Minion* m = dynamic_cast<Minion*>(u);
-   
+
    if(m) {
       game->notifyMinionSpawned(m, m->getTeam());
    }
-   
+
    Champion* c = dynamic_cast<Champion*>(o);
-   
+
    if(c) {
       champions[c->getNetId()] = c;
       game->notifyChampionSpawned(c, c->getTeam());
@@ -188,11 +188,11 @@ void Map::addObject(Object* o) {
 
 void Map::removeObject(Object* o) {
    Champion * c = dynamic_cast<Champion*>(o);
-   
+
    if (c) {
       champions.erase(c->getNetId());
    }
-   
+
    objects.erase(o->getNetId());
    visionUnits[o->getTeam()].erase(o->getNetId());
 }
@@ -204,7 +204,7 @@ void Map::stopTargeting(Unit* target) {
       if(!u) {
          continue;
       }
-      
+
       if(u->getTargetUnit() == target) {
          u->setTargetUnit(0);
          u->setAutoAttackTarget(0);
@@ -240,16 +240,16 @@ std::vector<Unit*> Map::getUnitsInRange(Target* t, float range, bool isAlive) {
 }
 
 bool Map::teamHasVisionOn(int team, Object* o) {
-   
+
    if (o == 0){
       return false;
    }
-   
+
    if(o->getTeam() == team) {
       return true;
    }
 
-   for(auto kv : objects) 
+   for(auto kv : objects)
    {
       if (kv.second->getTeam() == team && kv.second->distanceWith(o) < kv.second->getVisionRadius() && !mesh.isAnythingBetween(kv.second, o))
       {
@@ -258,7 +258,7 @@ bool Map::teamHasVisionOn(int team, Object* o) {
          return true;
       }
    }
-   
+
    return false;
 }
 
