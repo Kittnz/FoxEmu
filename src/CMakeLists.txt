@@ -15,6 +15,7 @@ add_subdirectory(genrev)
 #endif()
 
 #if (GAMESERVER)
+    add_subdirectory(gamed)
 #    add_subdirectory(gameserver)
 #    add_subdirectory(game)
 #    add_subdirectory(scripts)

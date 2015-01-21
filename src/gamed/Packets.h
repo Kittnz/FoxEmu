@@ -22,8 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <cmath>
 #include <set>
 
-#include <intlib/general.h>
-#include <enet/enet.h>
+#include <general.h>
+#include <enet.h>
 
 #include "common.h"
 #include "Buffer.h"

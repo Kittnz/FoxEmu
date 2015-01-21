@@ -18,9 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _NETWORK_LISTENER_H
 #define _NETWORK_LISTENER_H
 
-#include <enet/enet.h>
-#include <intlib/base64.h>
-#include <intlib/blowfish.h>
+#include <enet.h>
+#include <base64.h>
+#include <blowfish.h>
 
 #include "Map.h"
 #include "common.h"

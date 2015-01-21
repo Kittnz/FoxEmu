@@ -4,7 +4,6 @@
 #include "RAFManager.h"
 #include "Champion.h"
 #include "Inibin.h"
-#include "LuaScript.h"
 #include "Logger.h"
 
 
@@ -115,7 +114,7 @@ bool Spell::cast(float x, float y, Unit* u, uint32 futureProjNetId, uint32 spell
  */
 void Spell::finishCasting() {
 
-   doLua();
+   //doLua();
    
    state = STATE_COOLDOWN;
    currentCooldown = getCooldown();
@@ -140,7 +139,7 @@ std::string Spell::getStringForSlot(){
 
 
 
-void Spell::loadLua(LuaScript& script){
+/*void Spell::loadLua(LuaScript& script){
 
    std::string scriptloc = "../../lua/champions/" + owner->getType() + "/" + getStringForSlot() + ".lua"; //lua/championname/(q/w/e/r), example: /lua/Ezreal/q, also for stuff like nidalee cougar they will have diff folders!
 
@@ -177,7 +176,7 @@ void Spell::loadLua(LuaScript& script){
       return;
    });*/
    
-   script.lua.set_function("addBuff", [this](Buff b, Unit* u){
+   /*script.lua.set_function("addBuff", [this](Buff b, Unit* u){
       u->addBuff(new Buff(b));
       return;
    });
@@ -232,7 +231,7 @@ void Spell::loadLua(LuaScript& script){
    /**
     * For spells that don't require SpawnProjectile, but for which we still need to track the projectile server-side
     */
-   script.lua.set_function("addServerProjectile", [this](float toX, float toY) { 
+   /*script.lua.set_function("addServerProjectile", [this](float toX, float toY) { 
       Projectile* p = new Projectile(owner->getMap(), futureProjNetId, owner->getX(), owner->getY(), lineWidth, owner, new Target(toX, toY), this, projectileSpeed, 0, projectileFlags ? projectileFlags : flags);
       owner->getMap()->addObject(p);
 
@@ -306,7 +305,7 @@ void Spell::doLua(){
    }catch(sol::error e){//lua error? don't crash the whole server
       CORE_ERROR("%s", e.what());
    }
-}
+}*/
 
 /**
  * Called every diff milliseconds to update the spell
@@ -337,7 +336,7 @@ uint32 Spell::getId() const {
 
 void Spell::applyEffects(Unit* u, Projectile* p) {
 
-   LuaScript script(true);
+   /*LuaScript script(true);
    
    script.lua.set_function("getTarget", [&u]() { return u; });
    
@@ -372,5 +371,5 @@ void Spell::applyEffects(Unit* u, Projectile* p) {
       script.lua.script("applyEffects()");
    }catch(sol::error e){//lua error? don't crash the whole server
       CORE_ERROR("%s", e.what());
-   }
+   }*/
 }

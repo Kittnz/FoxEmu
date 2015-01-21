@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <sstream>
 #include "Stdafx.h"
 #include "Game.h"
-#include "LuaScript.h"
 #include "SummonersRift.h"
 #include "Logger.h"
 
@@ -101,7 +100,7 @@ bool Game::initialize(ENetAddress *address, const char *baseKey){
 
    //TODO: better lua implementation
 
-   LuaScript script(false);
+   /*LuaScript script(false);
 
    script.loadScript("../../lua/config.lua");
 
@@ -155,7 +154,7 @@ bool Game::initialize(ENetAddress *address, const char *baseKey){
             //CORE_ERROR("Error loading champion: %s", e.what());
             break;
         }
-    }
+    }*/
 
    // Uncomment the following to get 2-players
    /*ClientInfo* player2 = new ClientInfo("GOLD", TEAM_PURPLE);

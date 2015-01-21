@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Packets.h"
 #include "ItemManager.h"
 #include "ChatBox.h"
-#include "LuaScript.h"
 #include "Logger.h"
 
 #include <vector>
@@ -78,10 +77,12 @@ bool Game::handleSynch(ENetPeer *peer, ENetPacket *packet) {
    SynchVersion *version = reinterpret_cast<SynchVersion *>(packet->data);
    //Logging->writeLine("Client version: %s", version->version);
    //Gets the map from the lua configuration file.
-   LuaScript script(false);
+   /*LuaScript script(false);
    script.loadScript("../../lua/config.lua");
    sol::table config = script.getTable("game");
-   int mapId = config.get<int>("map");
+   int mapId = config.get<int>("map");*/
+
+   int mapId = 1;
    CORE_INFO("Current map: %i", mapId);
 
    bool versionMatch = true;

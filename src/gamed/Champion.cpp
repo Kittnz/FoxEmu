@@ -3,7 +3,6 @@
 #include "Inibin.h"
 #include "Map.h"
 #include "Game.h"
-#include "LuaScript.h"
 #include "Logger.h"
 #include <sstream>
 #include <algorithm>
@@ -64,7 +63,7 @@ Champion::Champion(const std::string& type, Map* map, uint32 id, uint32 playerId
    autoAttackDelay = autoAttack.getFloatValue("SpellData", "castFrame")/30.f;
    autoAttackProjectileSpeed = autoAttack.getFloatValue("SpellData", "MissileSpeed");
    
-   std::string scriptloc = "../../lua/champions/" + this->getType() + "/Passive.lua";
+   /*std::string scriptloc = "../../lua/champions/" + this->getType() + "/Passive.lua";
 	CORE_INFO("Loading %s", scriptloc.c_str());
    try{
     unitScript = LuaScript(true);//fix
@@ -87,7 +86,7 @@ Champion::Champion(const std::string& type, Map* map, uint32 id, uint32 playerId
    // unitScript.lua.set ("me", this);
    }catch(sol::error e){//lua error? don't crash the whole server
       CORE_ERROR("Champion passive load error: %s", e.what());
-   }
+   }*/
 }
 
 Spell* Champion::castSpell(uint8 slot, float x, float y, Unit* target, uint32 futureProjNetId, uint32 spellNetId) {
@@ -130,7 +129,7 @@ void Champion::update(int64 diff) {
       const std::map<uint32, Object*>& objects = map->getObjects();
       float distanceToTarget = 9000000.f;
       Unit* nextTarget = 0;
-      float range = std::max(stats->getRange(), DETECT_RANGE);
+      float range = max(stats->getRange(), DETECT_RANGE);
 
       for (auto& it : objects) {
          Unit* u = dynamic_cast<Unit*> (it.second);
@@ -215,7 +214,7 @@ void Champion::levelUp() {
    ++skillPoints;
 }
 std::pair<float, float> Champion::getRespawnPosition() {
-   LuaScript configScript(false);
+   /*LuaScript configScript(false);
    //get map ID
    configScript.loadScript("../../lua/config.lua");
    sol::table gameTable = configScript.getTable("game");
@@ -266,7 +265,9 @@ std::pair<float, float> Champion::getRespawnPosition() {
    }
    
    teamSizeSpawners = teamSpawners.get<sol::table>(to_string(teamSize));
-   return std::make_pair(teamSizeSpawners.get<float>("player" + to_string(spawnNumber) + "X"), teamSizeSpawners.get<float>("player" + to_string(spawnNumber) + "Y"));
+   return std::make_pair(teamSizeSpawners.get<float>("player" + to_string(spawnNumber) + "X"), teamSizeSpawners.get<float>("player" + to_string(spawnNumber) + "Y"));*/
+
+    return std::make_pair(0.0f, 0.0f);
 }
 void Champion::die(Unit* killer) {
    respawnTimer = 5000000 + getStats().getLevel()*2500000;
@@ -346,7 +347,7 @@ void Champion::dealDamageTo(Unit* target, float damage, DamageType type, DamageS
 
 
 int Champion::getTeamSize(){
-   LuaScript script(false);
+   /*LuaScript script(false);
 
    script.loadScript("../../lua/config.lua");
 
@@ -383,7 +384,9 @@ int Champion::getTeamSize(){
    if (team == "BLUE") {
       return blueTeamSize;
    }
-   else { return purpTeamSize; }
+   else { return purpTeamSize; }*/
+
+    return 1;
 }
 
 void Champion::onCollision(Object *collider)

@@ -5,7 +5,6 @@
 #include "Projectile.h"
 #include "RAFFile.h"
 #include <vector>
-#include "LuaScript.h"
 
 #include <array>
 
@@ -137,9 +136,9 @@ public:
    /*
     * does spell effects in lua if defined.
     */
-   void doLua();
+   /*void doLua();
    void loadLua(LuaScript& script);
-   void reloadLua();
+   void reloadLua();*/
 
    void setSlot(int _slot){
        slot=_slot;

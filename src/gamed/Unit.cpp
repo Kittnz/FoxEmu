@@ -18,13 +18,13 @@ Unit::~Unit() {
 
 void Unit::update(int64 diff) {
 
-   if (unitScript.isLoaded()) {
+   /*if (unitScript.isLoaded()) {
       try {
          unitScript.lua.get <sol::function> ("onUpdate").call <void> (diff);
       } catch (sol::error e) {
          CORE_ERROR("%s", e.what());
       }
-   }
+   }*/
 
    if (isDead()) {
       if (targetUnit) {
@@ -109,13 +109,13 @@ void Unit::update(int64 diff) {
 void Unit::autoAttackHit(Unit* target) {
   float damage = (nextAutoIsCrit) ? stats->getCritDamagePct() * stats->getTotalAd() : stats->getTotalAd();
     dealDamageTo(target, damage, DAMAGE_TYPE_PHYSICAL, DAMAGE_SOURCE_ATTACK);
-       if(unitScript.isLoaded()){
+       /*if(unitScript.isLoaded()){
       try{
          unitScript.lua.get <sol::function> ("onAutoAttack").call <void> (target);
       }catch(sol::error e){
          CORE_ERROR("Error callback ondealdamage: %s", e.what());
       }
-   }
+   }*/
 }
 
 /**
@@ -124,13 +124,13 @@ void Unit::autoAttackHit(Unit* target) {
 void Unit::dealDamageTo(Unit* target, float damage, DamageType type, DamageSource source) {
     //CORE_INFO("0x%08X deals %f damage to 0x%08X !", getNetId(), damage, target->getNetId());
     
-   if(unitScript.isLoaded()){
+   /*if(unitScript.isLoaded()){
       try{
-         /*damage = */ unitScript.lua.get <sol::function> ("onDealDamage").call <void> (target, damage, type, source);
+         /*damage = */ /*unitScript.lua.get <sol::function> ("onDealDamage").call <void> (target, damage, type, source);
       }catch(sol::error e){
          CORE_ERROR("Error callback ondealdamage: %s", e.what());
       }
-   }
+   }*/
     
     
     float defense = 0;
@@ -159,7 +159,7 @@ void Unit::dealDamageTo(Unit* target, float damage, DamageType type, DamageSourc
     //Damage dealing. (based on leagueoflegends' wikia)
     damage = defense >= 0 ? (100 / (100 + defense)) * damage : (2 - (100 / (100 - defense))) * damage;
 
-    target->getStats().setCurrentHealth(std::max(0.f, target->getStats().getCurrentHealth() - damage));
+    target->getStats().setCurrentHealth(max(0.f, target->getStats().getCurrentHealth() - damage));
     if (!target->deathFlag && target->getStats().getCurrentHealth() <= 0) {
         target->deathFlag = true;
         target->die(this);

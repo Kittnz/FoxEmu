@@ -12,8 +12,6 @@
 #include "Stdafx.h"
 #include "Vector2.h"
 
-#pragma STDC FENV_ACCESS ON
-
 class Map;
 
 #define MAP_WIDTH (13982 / 2)

@@ -5,7 +5,6 @@
 #include "Stats.h"
 #include <string>
 #include "Buff.h"
-#include "LuaScript.h"
 
 #define DETECT_RANGE 475.f
 
@@ -115,7 +114,6 @@ protected:
    
    bool targetable;
    bool nextAutoIsCrit;
-   LuaScript unitScript = LuaScript(true);
    
    int killDeathCounter;
 };
