@@ -65,7 +65,7 @@ protected:
    bool dashing;
    float dashSpeed;
 
-   bool visibleByTeam[2];
+   uint8 visibleByTeam;
 
 public:
    virtual ~Object();
@@ -125,7 +125,7 @@ public:
    void decrementAttackerCount() { --attackerCount; }
 
    bool isVisibleByTeam(uint32 team);
-   void setVisibleByTeam(uint32 team, bool visible);
+   void setVisibleByTeam(uint32 team);
 
    void dashTo(float x, float y, float dashSpeed);
    bool isDashing() const { return dashing; }

@@ -9,11 +9,11 @@ using namespace std;
 
 Object::Object(Map* map, uint32 id, float x, float y, uint32 collisionRadius, uint32 visionRadius) : Target(x, y), map(map), id(id), target(0), collisionRadius(collisionRadius),
                                                                                                      visionRadius(visionRadius), team(0), movementUpdated(false), toRemove(false), attackerCount(0),
-                                                                                                     dashing(false), visibleByTeam{false, false} 
+                                                                                                     dashing(false), visibleByTeam(0)
 {
 }
 
-Object::~Object() 
+Object::~Object()
 {
 }
 
@@ -36,7 +36,7 @@ void Object::setTarget(Target* target) {
    if(this->target && this->target->isSimpleTarget()) {
       delete this->target;
    }
-      
+
    this->target = target;
 
 }
@@ -51,9 +51,9 @@ void Object::Move(int64 diff) {
 
    Vector2 to(target->getX(), target->getY());
    Vector2 cur(x, y);
-   
+
    Vector2 goingTo (to - cur);
-	direction = goingTo.Normalize();
+    direction = goingTo.Normalize();
 
    float moveSpeed = dashing ? dashSpeed : getMoveSpeed();
    double deltaMovement = (double)(moveSpeed) * 0.000001f*diff;
@@ -64,7 +64,7 @@ void Object::Move(int64 diff) {
    x+= xx;
    y+= yy;
 
-	/* If the target was a simple point, stop when it is reached */
+    /* If the target was a simple point, stop when it is reached */
    if(target->isSimpleTarget() && distanceWith(target) < deltaMovement*2) {
       if(dashing) {
          dashing = false;
@@ -83,14 +83,14 @@ void Object::update(int64 diff) {
 
 void Object::setWaypoints(const std::vector<Vector2>& newWaypoints) {
    waypoints = newWaypoints;
-   
+
    setPosition(waypoints[0].X, waypoints[0].Y);
    movementUpdated = true;
    if(waypoints.size() == 1) {
       setTarget(0);
       return;
    }
-   
+
    setTarget(new Target(waypoints[1]));
    curWaypoint = 1;
 }
@@ -107,17 +107,16 @@ bool Object::collide(Object* o) {
    return distanceWithSqr(o) < (getCollisionRadius() + o->getCollisionRadius())*(getCollisionRadius() + o->getCollisionRadius());
 }
 
-bool Object::isVisibleByTeam(uint32 team) {
-	if(team > 1) 
-   {
-		return false;
-	}
+bool Object::isVisibleByTeam(uint32 team)
+{
+    if (team == getTeam())
+        return true;
 
-	return (team == getTeam() || visibleByTeam[team]);
+    return false;
 }
 
-void Object::setVisibleByTeam(uint32 team, bool visible) {
-	visibleByTeam[team] = visible;
+void Object::setVisibleByTeam(uint32 team) {
+    visibleByTeam = team;
 }
 
 float Object::getZ() {
