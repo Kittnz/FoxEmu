@@ -76,4 +76,11 @@ add_library(game STATIC
     ${game_STAT_SRCS}
 )
 
+target_link_libraries(gamenode
+    enet
+    intlib
+    raf
+    ${Boost_LIBRARIES}
+)
+
 add_dependencies(game revision.h)
