@@ -14,7 +14,7 @@ elseif (MSVC)
     add_definitions(/W0)
 endif()
 
-if (LOGINSERVER OR BATTLESERVER)
+if (GAMENODE)
     add_subdirectory(enet)
     add_subdirectory(intlib)
     add_subdirectory(raf)

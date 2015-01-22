@@ -17,16 +17,16 @@ message("")
 
 # Show infomation about the options selected during configuration
 
-if( LOGINSERVER )
-  message("* Build loginserver      : Yes (default)")
+if( LOGONSERVER )
+  message("* Build logonserver      : Yes")
 else()
-  message("* Build loginserver      : No")
+  message("* Build logonserver      : No (default)")
 endif()
 
-if( GAMESERVER )
-  message("* Build gameserver       : Yes (default)")
+if( GAMENODE )
+  message("* Build gamenode         : Yes (default)")
 else()
-  message("* Build gameserver       : No")
+  message("* Build gamenode         : No")
 endif()
 
 if ( WITHOUT_GIT )

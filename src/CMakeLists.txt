@@ -10,12 +10,12 @@
 
 add_subdirectory(genrev)
 
-#if (LOGINSERVER)
-#    add_subdirectory(logonserver)
-#endif()
+if (LOGONSERVER)
+    add_subdirectory(logonserver)
+endif()
 
-#if (GAMESERVER)
+if (GAMENODE)
     add_subdirectory(gamenode)
     add_subdirectory(game)
 #    add_subdirectory(scripts)
-#endif()
+endif()
