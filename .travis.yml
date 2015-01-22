@@ -17,7 +17,7 @@ before_install:
 install:
 - mkdir bin
 - cd bin
-- cmake ../ -DLOGINSERVER=1 -DBATTLESERVER=1 -DCMAKE_BUILD_TYPE=Release
+- cmake ../ -DLOGONSERVER=0 -DGAMENODE=1 -DCMAKE_BUILD_TYPE=Release
 
 script:
 - make -j 10
