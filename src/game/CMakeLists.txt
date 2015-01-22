@@ -76,7 +76,7 @@ add_library(game STATIC
     ${game_STAT_SRCS}
 )
 
-target_link_libraries(gamenode
+target_link_libraries(game
     enet
     intlib
     raf
